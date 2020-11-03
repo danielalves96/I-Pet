@@ -1,10 +1,10 @@
 import knex from '../database/connection';
 import { Request, Response } from 'express';
 
-class PointsController  {
+class PointsController {
 
     async index(request: Request, response: Response) {
-        const {city , uf , items} = request.query;
+        const { city, uf, items } = request.query;
 
         const parsedItems = String(items).split(',').map(item => Number(item.trim()));
 
@@ -15,9 +15,8 @@ class PointsController  {
             .distinct()
             .select('points.*')
 
-        response.json({points});
+        response.json({ points });
 
-        
     };
 
     async show(request: Request, response: Response) {
@@ -25,8 +24,8 @@ class PointsController  {
 
         const point = await knex('points').where('id', id).first();
 
-        if(!point){
-            return response.status(400).json({ message: "Point not found."});
+        if (!point) {
+            return response.status(400).json({ message: "Point not found." });
         }
 
         const items = await knex('items')
@@ -34,54 +33,65 @@ class PointsController  {
             .where('point_items.point_id', id)
             .select('items.title');
 
-        response.json({point , items});
+        response.json({ point, items });
     };
 
-
     async create(request: Request, response: Response) {
-        const {
-            name,
-            email,
-            whatsapp,
-            latitude,
-            longitude,
-            city,
-            uf,
-            items
-        } = request.body;
-    
-        const trx = await knex.transaction();
+        try {
+            const {
+                name,
+                email,
+                whatsapp,
+                latitude,
+                longitude,
+                city,
+                uf,
+                services,
+                items
+            } = request.body;
 
-        const point = {
-            image: 'image-fake',
-            name,
-            email,
-            whatsapp,
-            latitude,
-            longitude,
-            city,   
-            uf
-        }
-    
-        const insertedIds = await trx('points').insert(point);
-    
-        const point_id = insertedIds[0];
-    
-        const pointItems = items.map((item_id: number) => {
-            return {
-                item_id,
-                point_id,
+
+            const trx = await knex.transaction();
+
+            const point = {
+                image: 'image-fake',
+                name,
+                email,
+                whatsapp,
+                latitude,
+                longitude,
+                city,
+                uf,
+                services
             }
-        })
-    
-        await trx('point_items').insert(pointItems);
 
-        await trx.commit();
-    
-        return response.json({
-            id: point_id,
-            ...point
-        });
+            const insertedIds = await trx("points").insert(point, 'id');
+
+            const point_id = insertedIds[0];
+
+            const pointItems = items
+                .map((item_id: number) => {
+                    return {
+                        item_id,
+                        point_id,
+                    };
+                });
+
+            await trx("point_items").insert(pointItems);
+
+            await trx.commit();
+
+            return response.json({
+                id: point_id,
+                ...point
+            });
+
+        } catch (error) {
+            response.json({
+                error: 500,
+                message: error.message
+            });
+        }
     }
 };
 
