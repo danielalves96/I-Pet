@@ -25,7 +25,7 @@ main p {
     line-height: 38px;
 }
 
-a {
+#page-home a {
     width: 100%;
     max-width: 360px;
     height: 72px;
@@ -38,7 +38,7 @@ a {
     margin-top: 100px;
 }
 
-a span {
+#page-home a span {
     display: block;
     background: #002B49;
     width: 72px;
@@ -49,19 +49,19 @@ a span {
     transition: background-color 0.2s;
 }
 
-a span svg {
+#page-home a span svg {
     color: #FFF;
     width: 20px;
     height: 20px;
 }
 
-a strong {
+#page-home a strong {
     flex: 1;
     text-align: center;
     color: #002B49;
 }
 
-a:hover {
+#page-home a:hover {
     background: #47D4AC;
 }
 
