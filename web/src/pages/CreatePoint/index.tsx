@@ -8,6 +8,7 @@ import api from '../../services/api'
 import "./styles.css";
 
 import logo from "../../assets/logo.svg";
+import TagsInput from "../../components/TagsInput";
 
 const CreatePoint = () => {
 
@@ -107,12 +108,22 @@ const CreatePoint = () => {
           <ul className="items-grid">
             {items.map(item =>
               (<li>
-                <img src={item.image_url} alt={item.title}/>
-              <span>{item.title}</span>
+                <img src={item.image_url} alt={item.title} />
+                <span>{item.title}</span>
               </li>)
             )}
 
           </ul>
+        </fieldset>
+
+        <fieldset>
+          <legend>
+            <h2>Outros serviços</h2>
+          </legend>
+          <div className="field">
+            <label htmlFor="">Adicione todos os outros serviços que se enquadram em sua categoria</label>
+            <TagsInput />
+          </div>
         </fieldset>
 
         <button type="submit">Cadastrar estabelecimento</button>
