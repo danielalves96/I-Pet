@@ -13,29 +13,40 @@ div.ReactTags__tagInput input.ReactTags__tagInputField:focus {
     padding: 16px 24px;
     font-size: 16px;
     color: #6C6C80;
-    margin-left: 24px;
     margin-top:25px;
+}
 
+input.ReactTags__tagInputField {
+    width: 600px;
+}
+
+div.ReactTags__tagInput {
+    display: block;
 }
 
 
 /* Styles for selected tags */
 div.ReactTags__selected span.ReactTags__tag {
-    flex: 1;
-    background: #F0F0F5;
+    background: var(--primary-color);
     border-radius: 8px;
     border: 0;
     padding: 16px 24px;
     font-size: 16px;
-    color: #6C6C80;
+    color: #002B49;
     margin-right: 24px;
+}
+
+div.ReactTags__selected span.ReactTags__tag {
+    margin-bottom: 10px;
 }
 
 
 div.ReactTags__selected a.ReactTags__remove {
-    color: #aaa;
-    margin-left: 5px;
+    color: #002B49;
+    margin-left: 10px;
     cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
 }
 
 /* Styles for suggestions */
@@ -61,4 +72,8 @@ div.ReactTags__suggestions li mark {
 div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
     background: #b7cfe0;
     cursor: pointer;
+}
+
+.mt-20 {
+    margin-top: 20px;
 }

@@ -61,7 +61,7 @@ class TagsInput extends React.Component {
   render() {
     const { tags, suggestions } = this.state;
     return (
-      <div>
+      <div className="mt-20">
         <ReactTags
           tags={tags}
           suggestions={suggestions}
@@ -70,6 +70,7 @@ class TagsInput extends React.Component {
           handleAddition={this.handleAddition}
           handleDrag={this.handleDrag}
           handleTagClick={this.handleTagClick}
+          placeholder="Adicione aqui o serviço e pressione Enter para adicionar"
         />
       </div>
     );
