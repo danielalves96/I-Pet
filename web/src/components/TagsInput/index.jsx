@@ -6,7 +6,7 @@ import { WithContext as ReactTags } from 'react-tag-input';
 const suggestions = SERVICES.map((country) => {
   return {
     id: country,
-    text: country
+    name: country
   }
 })
 
@@ -22,7 +22,7 @@ class TagsInput extends React.Component {
     super(props);
 
     this.state = {
-      tags: [{ id: 'Thailand', text: 'Thailand' }, { id: 'India', text: 'India' }],
+      tags: [{ id: 'Banho', name: 'Banho' }, { id: 'Tosa', name: 'Tosa' }],
       suggestions: suggestions,
     };
     this.handleDelete = this.handleDelete.bind(this);
@@ -40,7 +40,6 @@ class TagsInput extends React.Component {
 
   handleAddition(tag) {
    this.setState(state => ({ tags: [...state.tags, tag] }));
-   console.log(this.state);
   }
 
   handleDrag(tag, currPos, newPos) {
@@ -64,7 +63,10 @@ class TagsInput extends React.Component {
       <div className="mt-20">
         <ReactTags
           tags={tags}
+          name="services" 
+          id="services"
           suggestions={suggestions}
+          labelField={'name'}
           delimiters={delimiters}
           handleDelete={this.handleDelete}
           handleAddition={this.handleAddition}

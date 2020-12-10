@@ -23,6 +23,7 @@ const CreatePoint = () => {
     api.get('items').then(response => {
       setItems(response.data);
     })
+    window.scrollTo(0, 0);
   }, []);
 
   return (
@@ -121,8 +122,8 @@ const CreatePoint = () => {
             <h2>Outros serviços</h2>
           </legend>
           <div className="field">
-            <label htmlFor="">Adicione todos os outros serviços que se enquadram em sua categoria</label>
-            <TagsInput />
+            <label htmlFor="services">Adicione todos os outros serviços que se enquadram em sua categoria</label>
+            <TagsInput/>
           </div>
         </fieldset>
 

@@ -145,7 +145,7 @@
     height: 56px;
     background: var(--primary-color);
     border-radius: 8px;
-    color: #FFF;
+    color: #002B49;
     font-weight: bold;
     font-size: 16px;
     border: 0;
@@ -157,6 +157,7 @@
 
 #page-create-point form button:hover {
     background: #002B49;
+    color: #FFF;
 }
 
 .items-grid {

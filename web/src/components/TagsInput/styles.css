@@ -7,12 +7,12 @@ div.ReactTags__tagInput {
 div.ReactTags__tagInput input.ReactTags__tagInputField,
 div.ReactTags__tagInput input.ReactTags__tagInputField:focus {
     flex: 1;
-    background: #F0F0F5;
+    background: #F0F0F5 !important;
     border-radius: 8px;
     border: 0;
     padding: 16px 24px;
     font-size: 16px;
-    color: #6C6C80;
+    color: var(--text-color) !important;
     margin-top:25px;
 }
 
@@ -22,15 +22,22 @@ input.ReactTags__tagInputField {
 
 div.ReactTags__tagInput {
     display: block;
+    flex-wrap: wrap;
+    display: inline-table;
 }
 
+div.ReactTags__selected {
+    display: flex;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+}
 
 /* Styles for selected tags */
 div.ReactTags__selected span.ReactTags__tag {
     background: var(--primary-color);
     border-radius: 8px;
     border: 0;
-    padding: 16px 24px;
+    padding: 9px 11px;
     font-size: 16px;
     color: #002B49;
     margin-right: 24px;
@@ -39,7 +46,6 @@ div.ReactTags__selected span.ReactTags__tag {
 div.ReactTags__selected span.ReactTags__tag {
     margin-bottom: 10px;
 }
-
 
 div.ReactTags__selected a.ReactTags__remove {
     color: #002B49;
