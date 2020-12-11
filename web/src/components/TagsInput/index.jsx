@@ -48,8 +48,6 @@ class TagsInput extends React.Component {
 
     newTags.splice(currPos, 1);
     newTags.splice(newPos, 0, tag);
-
-    // re-render
     this.setState({ tags: newTags });
   }
 
