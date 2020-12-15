@@ -4,15 +4,14 @@ import { FiArrowLeft } from "react-icons/fi";
 import { Map, TileLayer, Marker } from 'react-leaflet';
 import axios from 'axios';
 import InputMask from "react-input-mask";
+import MultiSelect from "react-multi-select-component";
+import { LeafletMouseEvent } from "leaflet";
 
 import api from '../../services/api'
 
 import "./styles.css";
 
 import logo from "../../assets/logo.svg";
-import { LeafletMouseEvent } from "leaflet";
-
-import MultiSelect from "react-multi-select-component";
 
 const CreatePoint = () => {
 
@@ -49,8 +48,8 @@ const CreatePoint = () => {
   const options = [
     { label: "Banho", value: "banho" },
     { label: "Hidratação", value: "hidratação" },
-    { label: "Tosa na máquina ", value: "tosa na máquina" },
-    { label: "Tosa na tesoura ✂️", value: "tosa na tesoura" },
+    { label: "Tosa na máquina", value: "tosa na máquina" },
+    { label: "Tosa na tesoura", value: "tosa na tesoura" },
     { label: "Tosa higiênica", value: "tosa higiênica" },
     { label: "Desembaraçamento", value: "desembaraçamento" },
     { label: "Tingimento dos pelos", value: "tingimento dos pelos" },
@@ -59,19 +58,19 @@ const CreatePoint = () => {
     { label: "Corte de unhas", value: "corte de unhas" },
     { label: "Consultas clínicas gerais e especialidades", value: "consultas clínicas gerais e especialidades" },
     { label: "Atendimento domiciliar", value: "atendimento domiciliar" },
-    { label: "Vacinação ", value: "vacinação" },
+    { label: "Vacinação", value: "vacinação" },
     { label: "Exames preventivos ", value: "preventivos" },
-    { label: "Cirurgias ", value: "cirurgias" },
-    { label: "Adestramento ", value: "adestramento" },
-    { label: "Hospedagem ", value: "hospedagem" },
+    { label: "Cirurgias", value: "cirurgias" },
+    { label: "Adestramento", value: "adestramento" },
+    { label: "Hospedagem", value: "hospedagem" },
     { label: "Taxi dog", value: "taxi dog" },
     { label: "Passeador", value: "passeador" },
     { label: "Pet Sitter", value: "pet Sitter" },
     { label: "Venda de rações", value: "Venda de rações" },
-    { label: "Venda de acessórios ", value: "Venda de acessórios" },
-    { label: "Farmácia ", value: "farmácia" },
-    { label: "Hotel ", value: "hotel" },
-    { label: "Adoção ", value: "adoção" },
+    { label: "Venda de acessórios", value: "Venda de acessórios" },
+    { label: "Farmácia", value: "farmácia" },
+    { label: "Hotel", value: "hotel" },
+    { label: "Adoção", value: "adoção" },
   ];
 
   const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
