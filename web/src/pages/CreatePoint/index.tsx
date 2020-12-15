@@ -1,8 +1,9 @@
 import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import { Map, TileLayer, Marker } from 'react-leaflet';
 import axios from 'axios';
+import InputMask from "react-input-mask";
 
 import api from '../../services/api'
 
@@ -40,23 +41,40 @@ const CreatePoint = () => {
     whatsapp: '',
     cep: '',
     number: '',
-    street: ''
+    street: '',
+    phone: '',
+    complement: ''
   })
 
   const options = [
-    { label: "Grapes 🍇", value: "grapes" },
-    { label: "Mango 🥭", value: "mango" },
-    { label: "Strawberry 🍓", value: "strawberry" },
-    { label: "Watermelon 🍉", value: "watermelon" },
-    { label: "Pear 🍐", value: "pear" },
-    { label: "Apple 🍎", value: "apple" },
-    { label: "Tangerine 🍊", value: "tangerine" },
-    { label: "Pineapple 🍍", value: "pineapple" },
-    { label: "Peach 🍑", value: "peach" },
+    { label: "Banho", value: "banho" },
+    { label: "Hidratação", value: "hidratação" },
+    { label: "Tosa na máquina ", value: "tosa na máquina" },
+    { label: "Tosa na tesoura ✂️", value: "tosa na tesoura" },
+    { label: "Tosa higiênica", value: "tosa higiênica" },
+    { label: "Desembaraçamento", value: "desembaraçamento" },
+    { label: "Tingimento dos pelos", value: "tingimento dos pelos" },
+    { label: "Escovação de dentes", value: "Escovação de dentes" },
+    { label: "Limpeza de ouvido", value: "limpeza de ouvido" },
+    { label: "Corte de unhas", value: "corte de unhas" },
+    { label: "Consultas clínicas gerais e especialidades", value: "consultas clínicas gerais e especialidades" },
+    { label: "Atendimento domiciliar", value: "atendimento domiciliar" },
+    { label: "Vacinação ", value: "vacinação" },
+    { label: "Exames preventivos ", value: "preventivos" },
+    { label: "Cirurgias ", value: "cirurgias" },
+    { label: "Adestramento ", value: "adestramento" },
+    { label: "Hospedagem ", value: "hospedagem" },
+    { label: "Taxi dog", value: "taxi dog" },
+    { label: "Passeador", value: "passeador" },
+    { label: "Pet Sitter", value: "pet Sitter" },
+    { label: "Venda de rações", value: "Venda de rações" },
+    { label: "Venda de acessórios ", value: "Venda de acessórios" },
+    { label: "Farmácia ", value: "farmácia" },
+    { label: "Hotel ", value: "hotel" },
+    { label: "Adoção ", value: "adoção" },
   ];
 
   const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
-
 
   const [selectedUf, setSelectedUf] = useState('0');
   const [selectedCity, setSelectedCity] = useState('0');
@@ -69,6 +87,8 @@ const CreatePoint = () => {
     "search": "Pesquisar",
     "clearSearch": "Limpar pesquisa"
   }
+
+  const history = useHistory();
 
   useEffect(() => {
     api.get('items').then(response => {
@@ -136,36 +156,38 @@ const CreatePoint = () => {
 
   }
 
-  function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
-    const { name, whatsapp, email, cep, number, street } = formData;
+    const { name, whatsapp, email, cep, number, street, phone, complement } = formData;
     const uf = selectedUf;
     const city = selectedCity;
     const [latitude, longitude] = selectedPosition;
     const items = selectedItems;
     const services = selectedOptions.map(val => val.label).join(', ');
-    const address = `${street} - N.º${number} | CEP:${cep}  `
-
-
+    const address = `${street} - N.º${number} - ${complement}| CEP:${cep} `
 
     const data = {
       name,
       email,
       whatsapp,
-      uf,
-      city,
       latitude,
       longitude,
+      city,
+      uf,
       address,
+      services,
+      phone,
       items,
-      services
     }
 
-    console.log(data);
+    await api.post('points', data);
+
+    alert('Estabalecimento cadastrado com sucesso!');
+
+    history.push('/')
 
   }
-
 
   return (
     <div id="page-create-point">
@@ -188,23 +210,23 @@ const CreatePoint = () => {
 
           <div className="field">
             <label htmlFor="name">Nome do estabelecimento*</label>
-            <input type="text" name="name" id="name" onChange={handleInputChange} required />
+            <input type="text" name="name" id="name" onChange={handleInputChange} required placeholder="Ex.: Aviário do seu Pedro" />
           </div>
 
           <div className="field">
             <label htmlFor="email">E-mail*</label>
-            <input type="email" name="email" id="email" onChange={handleInputChange} required />
+            <input type="email" name="email" id="email" onChange={handleInputChange} required placeholder="Ex.: aviario@example.org" />
           </div>
 
           <div className="field-group">
             <div className="field">
               <label htmlFor="whatsapp">Whatsapp</label>
-              <input type="text" name="whatsapp" id="whatsapp" onChange={handleInputChange} required/>
+              <InputMask mask="(99)99999-9999" type="text" name="whatsapp" id="whatsapp" onChange={handleInputChange} required placeholder="Ex.: (41)99999-9999" />
             </div>
 
             <div className="field">
               <label htmlFor="phone">Telefone fixo</label>
-              <input type="text" name="phone" id="phone" onChange={handleInputChange} />
+              <InputMask mask="(99)9999-9999" type="text" name="phone" id="phone" onChange={handleInputChange} placeholder="Ex.: (41)9999-9999" />
             </div>
           </div>
         </fieldset>
@@ -234,7 +256,7 @@ const CreatePoint = () => {
                 onChange={handleSelectUf}
                 required
               >
-                <option disabled value="0">Selecione um estado</option>
+                <option disabled value="0">Selecione um estado ▼</option>
                 {ufs.map(uf => (
                   <option key={uf} value={uf}>{uf}</option>
                 ))}
@@ -250,7 +272,7 @@ const CreatePoint = () => {
                 onChange={handleSelectCity}
                 required
               >
-                <option disabled value="0">Selecione uma cidade</option>
+                <option disabled value="0">Selecione uma cidade ▼</option>
                 {cities.map(city => (
                   <option key={city} value={city}>{city}</option>
                 ))}
@@ -261,20 +283,24 @@ const CreatePoint = () => {
           <div className="field-group">
             <div className="field">
               <label htmlFor="cep">CEP</label>
-              <input type="text" name="cep" id="cep" onChange={handleInputChange} required />
+              <InputMask mask="99.999-999" type="text" name="cep" id="cep" onChange={handleInputChange} required placeholder="Ex.: 81.900-456" />
             </div>
 
             <div className="field">
               <label htmlFor="number">Número do imóvel</label>
-              <input type="text" name="number" id="number" onChange={handleInputChange} />
+              <input type="text" name="number" id="number" onChange={handleInputChange} placeholder="Ex.: 1900" />
             </div>
           </div>
 
           <div className="field">
             <label htmlFor="street">Nome da rua</label>
-            <input type="text" name="street" id="street" onChange={handleInputChange} required />
+            <input type="text" name="street" id="street" onChange={handleInputChange} required placeholder="Ex.: Rua Julio Peréz" />
           </div>
 
+          <div className="field">
+            <label htmlFor="complement">Complemento</label>
+            <input type="text" name="complement" id="complement" onChange={handleInputChange} required placeholder="Ex.: Casa branca" />
+          </div>
 
         </fieldset>
 

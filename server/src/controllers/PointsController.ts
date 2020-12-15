@@ -48,7 +48,8 @@ class PointsController {
                 uf,
                 address,
                 services,
-                items
+                items,
+                phone
             } = request.body;
 
 
@@ -64,7 +65,8 @@ class PointsController {
                 city,
                 address,
                 uf,
-                services
+                services,
+                phone
             }
 
             const insertedIds = await trx("points").insert(point, 'id');
