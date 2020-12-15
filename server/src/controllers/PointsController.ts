@@ -46,6 +46,7 @@ class PointsController {
                 longitude,
                 city,
                 uf,
+                address,
                 services,
                 items
             } = request.body;
@@ -61,6 +62,7 @@ class PointsController {
                 latitude,
                 longitude,
                 city,
+                address,
                 uf,
                 services
             }
@@ -75,8 +77,7 @@ class PointsController {
                         item_id,
                         point_id,
                     };
-                });
-
+                })
             await trx("point_items").insert(pointItems);
 
             await trx.commit();

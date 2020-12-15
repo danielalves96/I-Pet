@@ -13,8 +13,6 @@ import { LeafletMouseEvent } from "leaflet";
 
 import MultiSelect from "react-multi-select-component";
 
-
-
 const CreatePoint = () => {
 
   interface Item {
@@ -35,8 +33,6 @@ const CreatePoint = () => {
   const [ufs, setUfs] = useState<string[]>([]);
   const [cities, setCities] = useState<string[]>([]);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
-
-
 
   const [formData, setFormData] = useState({
     name: '',
@@ -149,7 +145,7 @@ const CreatePoint = () => {
     const [latitude, longitude] = selectedPosition;
     const items = selectedItems;
     const services = selectedOptions.map(val => val.label).join(', ');
-    const adress = `${street} - N.º${number} | CEP:${cep}  `
+    const address = `${street} - N.º${number} | CEP:${cep}  `
 
 
 
@@ -161,7 +157,7 @@ const CreatePoint = () => {
       city,
       latitude,
       longitude,
-      adress,
+      address,
       items,
       services
     }
