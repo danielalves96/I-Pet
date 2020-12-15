@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ChangeEvent } from "react";
+import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import { Map, TileLayer, Marker } from 'react-leaflet';
@@ -11,11 +11,14 @@ import "./styles.css";
 import logo from "../../assets/logo.svg";
 import { LeafletMouseEvent } from "leaflet";
 
+import MultiSelect from "react-multi-select-component";
+
+
 
 const CreatePoint = () => {
 
   interface Item {
-    id: Number,
+    id: number,
     title: string,
     image_url: string
   }
@@ -31,19 +34,45 @@ const CreatePoint = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [ufs, setUfs] = useState<string[]>([]);
   const [cities, setCities] = useState<string[]>([]);
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
-  const [state, setState] = useState<string[]>([])
+
 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    whatsapp: ''
+    whatsapp: '',
+    cep: '',
+    number: '',
+    street: ''
   })
+
+  const options = [
+    { label: "Grapes 🍇", value: "grapes" },
+    { label: "Mango 🥭", value: "mango" },
+    { label: "Strawberry 🍓", value: "strawberry" },
+    { label: "Watermelon 🍉", value: "watermelon" },
+    { label: "Pear 🍐", value: "pear" },
+    { label: "Apple 🍎", value: "apple" },
+    { label: "Tangerine 🍊", value: "tangerine" },
+    { label: "Pineapple 🍍", value: "pineapple" },
+    { label: "Peach 🍑", value: "peach" },
+  ];
+
+  const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
 
 
   const [selectedUf, setSelectedUf] = useState('0');
   const [selectedCity, setSelectedCity] = useState('0');
   const [selectedPosition, setSelectedPosition] = useState<[number, number]>([-25.4278237, -49.2334783])
+
+  const internacionalization = {
+    "selectSomeItems": "Selecione aqui todos os serviços que realiza",
+    "allItemsAreSelected": "Todos os itens estão selecionados.",
+    "selectAll": "Selecionar todos",
+    "search": "Pesquisar",
+    "clearSearch": "Limpar pesquisa"
+  }
 
   useEffect(() => {
     api.get('items').then(response => {
@@ -91,9 +120,56 @@ const CreatePoint = () => {
   }
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
-    console.log(event.target.name, event.target.value);
+    const { name, value } = event.target;
+
+    setFormData({ ...formData, [name]: value })
 
   }
+
+  function handleSelectItem(id: number) {
+
+    const areadySelected = selectedItems.findIndex(item => item === id);
+
+    if (areadySelected >= 0) {
+      const filteredItems = selectedItems.filter(item => item !== id);
+      setSelectedItems(filteredItems);
+
+    } else {
+      setSelectedItems([...selectedItems, id])
+    }
+
+  }
+
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+
+    const { name, whatsapp, email, cep, number, street } = formData;
+    const uf = selectedUf;
+    const city = selectedCity;
+    const [latitude, longitude] = selectedPosition;
+    const items = selectedItems;
+    const services = selectedOptions.map(val => val.label).join(', ');
+    const adress = `${street} - N.º${number} | CEP:${cep}  `
+
+
+
+    const data = {
+      name,
+      email,
+      whatsapp,
+      uf,
+      city,
+      latitude,
+      longitude,
+      adress,
+      items,
+      services
+    }
+
+    console.log(data);
+
+  }
+
 
   return (
     <div id="page-create-point">
@@ -106,7 +182,7 @@ const CreatePoint = () => {
         </Link>
       </header>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <h1>Cadastro de novo estabelecimento</h1>
 
         <fieldset>
@@ -116,18 +192,18 @@ const CreatePoint = () => {
 
           <div className="field">
             <label htmlFor="name">Nome do estabelecimento*</label>
-            <input type="text" name="name" id="name" onChange={handleInputChange} />
+            <input type="text" name="name" id="name" onChange={handleInputChange} required />
           </div>
 
           <div className="field">
             <label htmlFor="email">E-mail*</label>
-            <input type="email" name="email" id="email" onChange={handleInputChange} />
+            <input type="email" name="email" id="email" onChange={handleInputChange} required />
           </div>
 
           <div className="field-group">
             <div className="field">
               <label htmlFor="whatsapp">Whatsapp</label>
-              <input type="text" name="whatsapp" id="whatsapp" onChange={handleInputChange} />
+              <input type="text" name="whatsapp" id="whatsapp" onChange={handleInputChange} required/>
             </div>
 
             <div className="field">
@@ -160,6 +236,7 @@ const CreatePoint = () => {
                 id="uf"
                 value={selectedUf}
                 onChange={handleSelectUf}
+                required
               >
                 <option disabled value="0">Selecione um estado</option>
                 {ufs.map(uf => (
@@ -175,6 +252,7 @@ const CreatePoint = () => {
                 id="city"
                 value={selectedCity}
                 onChange={handleSelectCity}
+                required
               >
                 <option disabled value="0">Selecione uma cidade</option>
                 {cities.map(city => (
@@ -183,6 +261,25 @@ const CreatePoint = () => {
               </select>
             </div>
           </div>
+
+          <div className="field-group">
+            <div className="field">
+              <label htmlFor="cep">CEP</label>
+              <input type="text" name="cep" id="cep" onChange={handleInputChange} required />
+            </div>
+
+            <div className="field">
+              <label htmlFor="number">Número do imóvel</label>
+              <input type="text" name="number" id="number" onChange={handleInputChange} />
+            </div>
+          </div>
+
+          <div className="field">
+            <label htmlFor="street">Nome da rua</label>
+            <input type="text" name="street" id="street" onChange={handleInputChange} required />
+          </div>
+
+
         </fieldset>
 
         <fieldset>
@@ -193,7 +290,7 @@ const CreatePoint = () => {
 
           <ul className="items-grid">
             {items.map(item =>
-              (<li>
+              (<li key={item.id} onClick={() => handleSelectItem(item.id)} className={selectedItems.includes(item.id) ? 'selected' : ''}>
                 <img src={item.image_url} alt={item.title} />
                 <span>{item.title}</span>
               </li>)
@@ -207,14 +304,17 @@ const CreatePoint = () => {
             <h2>Outros serviços</h2>
           </legend>
 
-          {/* <div className="field">
-            <label htmlFor="services">Adicione todos os outros serviços que se enquadram em sua categoria</label>
-            <input type="text" name="services" id="services" onChange={handleInputChange} data-role="tagsinput" />
-          </div> */}
+          <MultiSelect
+            options={options}
+            value={selectedOptions}
+            onChange={setSelectedOptions}
+            labelledBy={"Select"}
+            overrideStrings={internacionalization}
+          />
 
         </fieldset>
 
-        <button type="submit">Cadastrar estabelecimento</button>
+        <button className="btn-submit" type="submit">Cadastrar estabelecimento</button>
       </form>
     </div>
   );
