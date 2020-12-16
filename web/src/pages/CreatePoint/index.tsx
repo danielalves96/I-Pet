@@ -75,9 +75,13 @@ const CreatePoint = () => {
 
   const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
 
+  const [initialPosition, setInitialPosition] = useState<[number, number]>([0, 0])
+
   const [selectedUf, setSelectedUf] = useState('0');
   const [selectedCity, setSelectedCity] = useState('0');
-  const [selectedPosition, setSelectedPosition] = useState<[number, number]>([-25.4278237, -49.2334783])
+  const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0])
+
+  
 
   const internacionalization = {
     "selectSomeItems": "Selecione aqui todos os serviços que realiza",
@@ -88,6 +92,14 @@ const CreatePoint = () => {
   }
 
   const history = useHistory();
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(position => {
+      const { latitude , longitude } = position.coords;
+
+      setInitialPosition([latitude, longitude]);
+    })
+  }, [])
 
   useEffect(() => {
     api.get('items').then(response => {
@@ -236,12 +248,11 @@ const CreatePoint = () => {
             <span>Selecione o endereço no mapa *</span>
           </legend>
 
-          <Map center={[-25.4278237, -49.2334783]} zoom={8} onclick={handleMapClick}>
+          <Map center={initialPosition} zoom={16} onclick={handleMapClick}>
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-
             <Marker position={selectedPosition} />
           </Map>
 
@@ -332,7 +343,6 @@ const CreatePoint = () => {
             labelledBy={"Select"}
             overrideStrings={internacionalization}
           />
-
         </fieldset>
 
         <button className="btn-submit" type="submit">Cadastrar estabelecimento</button>
