@@ -81,8 +81,6 @@ const CreatePoint = () => {
   const [selectedCity, setSelectedCity] = useState('0');
   const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0])
 
-  
-
   const internacionalization = {
     "selectSomeItems": "Selecione aqui todos os serviços que realiza",
     "allItemsAreSelected": "Todos os itens estão selecionados.",
@@ -327,7 +325,6 @@ const CreatePoint = () => {
                 <span>{item.title}</span>
               </li>)
             )}
-
           </ul>
         </fieldset>
 
