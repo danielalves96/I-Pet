@@ -56,7 +56,7 @@ class PointsController {
             const trx = await knex.transaction();
 
             const point = {
-                image: 'image-fake',
+                image: 'https://amapa.ind.br/blog/wp-content/uploads/2020/03/Post_Ja-esta-em-vigor-a-nova-regulamentacao-para-as-pet-shops.jpg',
                 name,
                 email,
                 whatsapp,
