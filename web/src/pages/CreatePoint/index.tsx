@@ -6,6 +6,7 @@ import axios from 'axios';
 import InputMask from "react-input-mask";
 import MultiSelect from "react-multi-select-component";
 import { LeafletMouseEvent } from "leaflet";
+import { Translate } from '../../Internacionalization/PR_BR';
 
 import api from '../../services/api'
 
@@ -93,7 +94,7 @@ const CreatePoint = () => {
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(position => {
-      const { latitude , longitude } = position.coords;
+      const { latitude, longitude } = position.coords;
 
       setInitialPosition([latitude, longitude]);
     })
@@ -192,7 +193,7 @@ const CreatePoint = () => {
 
     await api.post('points', data);
 
-    alert('Estabalecimento cadastrado com sucesso!');
+    alert(Translate.map(app => app.CreatePoint.SUCCESS_MESAGE).toString());
 
     history.push('/')
 
@@ -205,45 +206,74 @@ const CreatePoint = () => {
 
         <Link to="/">
           <FiArrowLeft />
-          Voltar para home
+          {Translate.map(app => app.CreatePoint.BACK_HOME)}
         </Link>
       </header>
 
       <form onSubmit={handleSubmit}>
-        <h1>Cadastro de novo estabelecimento</h1>
+        <h1>{Translate.map(app => app.CreatePoint.NEW_POINT)}</h1>
 
         <fieldset>
           <legend>
-            <h2>Dados</h2>
+            <h2>{Translate.map(app => app.CreatePoint.DATA)}</h2>
           </legend>
 
           <div className="field">
-            <label htmlFor="name">Nome do estabelecimento*</label>
-            <input type="text" name="name" id="name" onChange={handleInputChange} required placeholder="Ex.: Aviário do seu Pedro" />
+            <label htmlFor="name">{Translate.map(app => app.CreatePoint.POINT_NAME)}</label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              onChange={handleInputChange}
+              required
+              placeholder={Translate.map(app => app.CreatePoint.POINT_NAME_EXAMPLE).toString()}
+            />
           </div>
 
           <div className="field">
-            <label htmlFor="email">E-mail*</label>
-            <input type="email" name="email" id="email" onChange={handleInputChange} required placeholder="Ex.: aviario@example.org" />
+            <label htmlFor="email">{Translate.map(app => app.CreatePoint.EMAIL)}</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              onChange={handleInputChange}
+              required
+              placeholder={Translate.map(app => app.CreatePoint.EMAIL_EXAMPLE).toString()}
+            />
           </div>
 
           <div className="field-group">
             <div className="field">
-              <label htmlFor="whatsapp">Whatsapp</label>
-              <InputMask mask="(99)99999-9999" type="text" name="whatsapp" id="whatsapp" onChange={handleInputChange} required placeholder="Ex.: (41)99999-9999" />
+              <label htmlFor="whatsapp">{Translate.map(app => app.CreatePoint.WHATSAPP)}</label>
+              <InputMask
+                mask="(99)99999-9999"
+                type="text"
+                name="whatsapp"
+                id="whatsapp"
+                onChange={handleInputChange}
+                required
+                placeholder="Ex.: (41)99999-9999"
+              />
             </div>
 
             <div className="field">
-              <label htmlFor="phone">Telefone fixo</label>
-              <InputMask mask="(99)9999-9999" type="text" name="phone" id="phone" onChange={handleInputChange} placeholder="Ex.: (41)9999-9999" />
+              <label htmlFor="phone">{Translate.map(app => app.CreatePoint.PHONE)}</label>
+              <InputMask
+                mask="(99)9999-9999"
+                type="text"
+                name="phone"
+                id="phone"
+                onChange={handleInputChange}
+                placeholder="Ex.: (41)9999-9999"
+              />
             </div>
           </div>
         </fieldset>
 
         <fieldset>
           <legend>
-            <h2>Endereço</h2>
-            <span>Selecione o endereço no mapa *</span>
+            <h2>{Translate.map(app => app.CreatePoint.ADDRESS)}</h2>
+            <span>{Translate.map(app => app.CreatePoint.SELECT_ADDRESS)}</span>
           </legend>
 
           <Map center={initialPosition} zoom={16} onclick={handleMapClick}>
@@ -256,7 +286,7 @@ const CreatePoint = () => {
 
           <div className="field-group">
             <div className="field">
-              <label htmlFor="uf">Estado (UF)</label>
+              <label htmlFor="uf">{Translate.map(app => app.CreatePoint.STATE)}</label>
               <select
                 name="uf"
                 id="uf"
@@ -264,7 +294,7 @@ const CreatePoint = () => {
                 onChange={handleSelectUf}
                 required
               >
-                <option disabled value="0">Selecione um estado ▼</option>
+                <option disabled value="0">{Translate.map(app => app.CreatePoint.SELECT_STATE)}</option>
                 {ufs.map(uf => (
                   <option key={uf} value={uf}>{uf}</option>
                 ))}
@@ -272,7 +302,7 @@ const CreatePoint = () => {
             </div>
 
             <div className="field">
-              <label htmlFor="city">Cidade</label>
+              <label htmlFor="city">{Translate.map(app => app.CreatePoint.CITY)}</label>
               <select
                 name="city"
                 id="city"
@@ -280,7 +310,7 @@ const CreatePoint = () => {
                 onChange={handleSelectCity}
                 required
               >
-                <option disabled value="0">Selecione uma cidade ▼</option>
+                <option disabled value="0">{Translate.map(app => app.CreatePoint.SELECT_CITY)}</option>
                 {cities.map(city => (
                   <option key={city} value={city}>{city}</option>
                 ))}
@@ -290,32 +320,60 @@ const CreatePoint = () => {
 
           <div className="field-group">
             <div className="field">
-              <label htmlFor="cep">CEP</label>
-              <InputMask mask="99.999-999" type="text" name="cep" id="cep" onChange={handleInputChange} required placeholder="Ex.: 81.900-456" />
+              <label htmlFor="cep">{Translate.map(app => app.CreatePoint.POSTAL_CODE)}</label>
+              <InputMask
+                mask="99.999-999"
+                type="text"
+                name="cep"
+                id="cep"
+                onChange={handleInputChange}
+                required
+                placeholder="Ex.: 81.900-456"
+              />
             </div>
 
             <div className="field">
-              <label htmlFor="number">Número do imóvel</label>
-              <input type="text" name="number" id="number" onChange={handleInputChange} placeholder="Ex.: 1900" />
+              <label htmlFor="number">{Translate.map(app => app.CreatePoint.HOUSE_NUMBER)}</label>
+              <input
+                type="text"
+                name="number"
+                id="number"
+                onChange={handleInputChange}
+                placeholder="Ex.: 1900"
+              />
             </div>
           </div>
 
           <div className="field">
-            <label htmlFor="street">Nome da rua</label>
-            <input type="text" name="street" id="street" onChange={handleInputChange} required placeholder="Ex.: Rua Julio Peréz" />
+            <label htmlFor="street">{Translate.map(app => app.CreatePoint.STREET)}</label>
+            <input
+              type="text"
+              name="street"
+              id="street"
+              onChange={handleInputChange}
+              required
+              placeholder={Translate.map(app => app.CreatePoint.STREET_EXAMPLE).toString()}
+            />
           </div>
 
           <div className="field">
-            <label htmlFor="complement">Complemento</label>
-            <input type="text" name="complement" id="complement" onChange={handleInputChange} required placeholder="Ex.: Casa branca" />
+            <label htmlFor="complement">{Translate.map(app => app.CreatePoint.COMPLEMENT)}</label>
+            <input
+              type="text"
+              name="complement"
+              id="complement"
+              onChange={handleInputChange}
+              required
+              placeholder={Translate.map(app => app.CreatePoint.COMPLEMENT_EXAMPLE).toString()}
+            />
           </div>
 
         </fieldset>
 
         <fieldset>
           <legend>
-            <h2>Categorias de serviço</h2>
-            <span>Selecione uma ou mais categorias</span>
+            <h2>{Translate.map(app => app.CreatePoint.SERVICE_CATEGORY)}</h2>
+            <span>{Translate.map(app => app.CreatePoint.SERVICE_CATEGORY)}</span>
           </legend>
 
           <ul className="items-grid">
@@ -330,7 +388,7 @@ const CreatePoint = () => {
 
         <fieldset>
           <legend>
-            <h2>Outros serviços</h2>
+            <h2>{Translate.map(app => app.CreatePoint.OTHER_SERVICES)}</h2>
           </legend>
 
           <MultiSelect
@@ -342,7 +400,7 @@ const CreatePoint = () => {
           />
         </fieldset>
 
-        <button className="btn-submit" type="submit">Cadastrar estabelecimento</button>
+        <button className="btn-submit" type="submit">{Translate.map(app => app.CreatePoint.SUBMIT)}</button>
       </form>
     </div>
   );
