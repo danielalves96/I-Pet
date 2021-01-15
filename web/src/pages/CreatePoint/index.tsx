@@ -47,31 +47,31 @@ const CreatePoint = () => {
   })
 
   const options = [
-    { label: "Banho", value: "banho" },
-    { label: "Hidratação", value: "hidratação" },
-    { label: "Tosa na máquina", value: "tosa na máquina" },
-    { label: "Tosa na tesoura", value: "tosa na tesoura" },
-    { label: "Tosa higiênica", value: "tosa higiênica" },
-    { label: "Desembaraçamento", value: "desembaraçamento" },
-    { label: "Tingimento dos pelos", value: "tingimento dos pelos" },
-    { label: "Escovação de dentes", value: "Escovação de dentes" },
-    { label: "Limpeza de ouvido", value: "limpeza de ouvido" },
-    { label: "Corte de unhas", value: "corte de unhas" },
-    { label: "Consultas clínicas gerais e especialidades", value: "consultas clínicas gerais e especialidades" },
-    { label: "Atendimento domiciliar", value: "atendimento domiciliar" },
-    { label: "Vacinação", value: "vacinação" },
-    { label: "Exames preventivos ", value: "preventivos" },
-    { label: "Cirurgias", value: "cirurgias" },
     { label: "Adestramento", value: "adestramento" },
+    { label: "Adoção", value: "adoção" },
+    { label: "Atendimento domiciliar", value: "atendimento domiciliar" },
+    { label: "Banho", value: "banho" },
+    { label: "Cirurgias", value: "cirurgias" },
+    { label: "Consultas clínicas gerais e especialidades", value: "consultas clínicas gerais e especialidades" },
+    { label: "Corte de unhas", value: "corte de unhas" },
+    { label: "Desembaraçamento", value: "desembaraçamento" },
+    { label: "Escovação de dentes", value: "Escovação de dentes" },
+    { label: "Exames preventivos ", value: "preventivos" },
+    { label: "Farmácia", value: "farmácia" },
+    { label: "Hidratação", value: "hidratação" },
     { label: "Hospedagem", value: "hospedagem" },
-    { label: "Taxi dog", value: "taxi dog" },
+    { label: "Hotel", value: "hotel" },
+    { label: "Limpeza de ouvido", value: "limpeza de ouvido" },
     { label: "Passeador", value: "passeador" },
     { label: "Pet Sitter", value: "pet Sitter" },
-    { label: "Venda de rações", value: "Venda de rações" },
+    { label: "Taxi dog", value: "taxi dog" },
+    { label: "Tingimento dos pelos", value: "tingimento dos pelos" },
+    { label: "Tosa higiênica", value: "tosa higiênica" },
+    { label: "Tosa na máquina", value: "tosa na máquina" },
+    { label: "Tosa na tesoura", value: "tosa na tesoura" },
+    { label: "Vacinação", value: "vacinação" },
     { label: "Venda de acessórios", value: "Venda de acessórios" },
-    { label: "Farmácia", value: "farmácia" },
-    { label: "Hotel", value: "hotel" },
-    { label: "Adoção", value: "adoção" },
+    { label: "Venda de rações", value: "Venda de rações" },
   ];
 
   const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
@@ -199,6 +199,7 @@ const CreatePoint = () => {
 
   }
 
+  // Página HTML em TSX
   return (
     <div id="page-create-point">
       <header>
