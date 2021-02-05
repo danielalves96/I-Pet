@@ -4,8 +4,14 @@ import { AntDesign } from '@expo/vector-icons';
 import { RectButton } from 'react-native-gesture-handler';
 import { Translate } from '../../Internacionalization/PT_BR';
 import { styles } from './style';
-
+import { useNavigation } from "@react-navigation/native";
 const Home = () => {
+
+    const navigation = useNavigation();
+
+    function handleNavigateToPoints() {
+        navigation.navigate('Points')
+    }
 
     return (
         <ImageBackground source={require('../../assets/pets.png')} style={styles.container} imageStyle={{ width: 314, height: 314, marginTop: 100, marginLeft: 40 }}>
@@ -16,7 +22,7 @@ const Home = () => {
             </View>
 
             <View style={styles.footer}>
-                <RectButton style={styles.button} onPress={() => { }}>
+                <RectButton style={styles.button} onPress={handleNavigateToPoints}>
                     <View style={styles.buttonIcon}>
                         <Text >
                             <AntDesign name="arrowright" size={24} color="#FFF" />

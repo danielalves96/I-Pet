@@ -75,9 +75,7 @@ const CreatePoint = () => {
   ];
 
   const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
-
-  const [initialPosition, setInitialPosition] = useState<[number, number]>([0, 0])
-
+  const [initialPosition, setInitialPosition] = useState<[number, number]>([-23.5560633,-46.6591996])
   const [selectedUf, setSelectedUf] = useState('0');
   const [selectedCity, setSelectedCity] = useState('0');
   const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0])
@@ -97,6 +95,28 @@ const CreatePoint = () => {
       const { latitude, longitude } = position.coords;
 
       setInitialPosition([latitude, longitude]);
+      setSelectedPosition ([latitude, longitude]);
+
+      //Dados da URL via HERE Maps
+      const apiKey = 'i2a6F4RTvYOzSV13QJdgudZv5GGOd9oFJ79AQc3UYWY'
+      const hereBaseApi = 'https://revgeocode.search.hereapi.com/v1/revgeocode?at='
+
+      //Montagem da URL para pesquisa de Cidade e Estado
+      const baseUrl = `${hereBaseApi}${latitude}%2C${longitude}&lang=pt-BR/&apiKey=${apiKey}`
+
+      const fetchData = async () => {
+        const response = await axios.get(baseUrl);
+        const { items } = (response.data);
+
+        const currentState = items.map((item : any)  => item.address.stateCode).toString()
+        const currentCity = items.map((item : any)  => item.address.city).toString()
+
+        setSelectedCity(currentCity);
+        setSelectedUf(currentState);
+      }
+
+      fetchData();
+
     })
   }, [])
 
