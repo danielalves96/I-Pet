@@ -195,7 +195,7 @@ const CreatePoint = () => {
     const [latitude, longitude] = selectedPosition;
     const items = selectedItems;
     const services = selectedOptions.map(val => val.label).join(', ');
-    const address = `${street} - N.º${number} - ${complement}| CEP:${cep} `
+    const address = `${street} - N.º${number} - ${complement} | CEP:${cep} `
 
     const data = {
       name,
