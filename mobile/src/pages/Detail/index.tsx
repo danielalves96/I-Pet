@@ -1,17 +1,64 @@
-import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Image, Text, SafeAreaView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, TouchableOpacity, Image, Text, SafeAreaView, Linking } from 'react-native';
 import { Feather as Icon, FontAwesome } from '@expo/vector-icons'
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { RectButton } from 'react-native-gesture-handler';
 import Constants from 'expo-constants';
+import api from '../../services/api'
+import * as MailComposer from 'expo-mail-composer';
 
+interface Params {
+  point_id: number;
+}
+
+interface Data {
+  point: {
+    image: string;
+    name: string;
+    email: string;
+    whatsapp: string;
+    city: string;
+    uf: string;
+    address: string;
+    services: string;
+  };
+  items: {
+    title: string;
+  }[];
+}
 
 const Detail = () => {
 
+  const [data, setData] = useState<Data>({} as Data);
+
   const navigation = useNavigation();
+  const route = useRoute();
+
+  const routeParms = route.params as Params;
+
+  useEffect(() => {
+    api.get(`points/${routeParms.point_id}`).then(response => {
+      setData(response.data)
+    })
+  }, []);
 
   function handleNavigateBack() {
     navigation.goBack();
+  }
+
+  function handleComposeMail() {
+    MailComposer.composeAsync({
+      subject: 'Contato via I-PET',
+      recipients: [data.point.email]
+    })
+  }
+
+  function handleWhatsapp() {
+    Linking.openURL(`whatsapp://send?phone=+55${data.point.whatsapp}&text=Olá, Estou entrando em contato via I-PET.`)
+  }
+
+  if (!data.point) {
+    return null;
   }
 
   return (
@@ -25,25 +72,25 @@ const Detail = () => {
 
         <Image style={styles.image} source={require('../../assets/logo.png')} />
 
-        <Image style={styles.pointImage} source={{ uri: 'https://freight.cargo.site/w/873/i/68000046fd4fe9aaf815fc5a15928eabc440ff6a1552631c1e1c0ddb98029a25/PETSHOP-12.jpg' }} />
-        <Text style={styles.pointName}>Pet shop</Text>
-        <Text style={styles.pointItems}>Castração, tosa e banho</Text>
+        <Image style={styles.pointImage} source={{ uri: data.point.image }} />
+        <Text style={styles.pointName}>{data.point.name}</Text>
+        <Text style={styles.pointItems}>{data.items.map(item => item.title).join(', ')}</Text>
         <View style={styles.address}>
           <Text style={styles.addressTitle}>Serviços</Text>
-          <Text style={styles.addressContent}>Castração, ortopedia, cirurgias em geral.</Text>
+          <Text style={styles.addressContent}>{data.point.services}</Text>
         </View>
         <View style={styles.address}>
           <Text style={styles.addressTitle}>Endereço</Text>
-          <Text style={styles.addressContent}>Curitiba - PR</Text>
+          <Text style={styles.addressContent}>{data.point.address}</Text>
         </View>
       </View>
       <View style={styles.footer}>
-        <RectButton style={styles.button} onPress={() => {}}>
+        <RectButton style={styles.button} onPress={handleWhatsapp}>
           <FontAwesome name="whatsapp" size={20} color="#002B49"/>
           <Text style={styles.buttonText}>Whatsapp</Text>
         </RectButton>
 
-        <RectButton style={styles.button} onPress={() => {}}>
+        <RectButton style={styles.button} onPress={handleComposeMail}>
           <Icon name="mail" size={20} color="#002B49"/>
           <Text style={styles.buttonText}>E-mail</Text>
         </RectButton>

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Constants from 'expo-constants';
 import { Feather as Icon } from '@expo/vector-icons'
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, Alert } from 'react-native';
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import MapView, { Marker } from 'react-native-maps';
 import { SvgUri as Svg } from 'react-native-svg';
 import api from '../../services/api';
@@ -22,6 +22,11 @@ interface Point {
   longitude: string;
 }
 
+interface Params {
+  uf: number;
+  city: string;
+}
+
 
 
 
@@ -33,6 +38,10 @@ const Points = () => {
   const [points, setPoints] = useState<Point[]>([]);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [initialPosition, setInitialPosition] = useState<[number, number]>([0, 0]);
+
+  const route = useRoute();
+
+  const routeParms = route.params as Params;
 
   useEffect(() => {
     async function loadPosition() {
@@ -67,9 +76,9 @@ const Points = () => {
     const fetchData = async () => {
       const response = await api.get('points', {
         params: {
-          city: 'Curitiba',
-          uf: 'PR',
-          items: [1]
+          city: routeParms.city,
+          uf: routeParms.uf,
+          items: selectedItems
         }
       });
       const { points } = (response.data);
@@ -79,28 +88,31 @@ const Points = () => {
 
     fetchData();
 
-
-  }, []);
+  }, [selectedItems]);
 
   function handleNavigateBack() {
     navigation.goBack();
   }
 
-  function handleNavigateToDetail() {
-    navigation.navigate('Detail');
+  function handleNavigateToDetail(id: number) {
+    navigation.navigate('Detail', {point_id:id});
   }
 
   function handleSelectItem(id: number) {
 
-    const areadySelected = selectedItems.findIndex(item => item === id);
-
-    if (areadySelected >= 0) {
+    if (selectedItems.includes(id)) {
       const filteredItems = selectedItems.filter(item => item !== id);
-      setSelectedItems(filteredItems);
-
-    } else {
-      setSelectedItems([...selectedItems, id])
+      console.log(selectedItems)
+      return setSelectedItems(filteredItems);
+    } 
+    if (!selectedItems.includes(id)) {
+      console.log(selectedItems)
+      return setSelectedItems([...selectedItems, id])
     }
+    
+    
+
+    
 
   }
 
@@ -134,7 +146,7 @@ const Points = () => {
                  <Marker
                   key={String(point.id)}
                   style={styles.mapMarker}
-                  onPress={handleNavigateToDetail}
+                  onPress={() => handleNavigateToDetail(point.id)}
                   coordinate={{
                     latitude: Number(point.latitude),
                     longitude: Number(point.longitude),
