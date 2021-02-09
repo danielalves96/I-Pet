@@ -7,6 +7,7 @@ import InputMask from "react-input-mask";
 import MultiSelect from "react-multi-select-component";
 import { LeafletMouseEvent } from "leaflet";
 import { Translate } from '../../Internacionalization/PR_BR';
+import Dropzone from '../../components/Dropzone'
 
 import api from '../../services/api'
 
@@ -78,7 +79,9 @@ const CreatePoint = () => {
   const [initialPosition, setInitialPosition] = useState<[number, number]>([-23.5560633,-46.6591996])
   const [selectedUf, setSelectedUf] = useState('0');
   const [selectedCity, setSelectedCity] = useState('0');
-  const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0])
+  const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0]);
+  const [selectedImage, setSelectedImage] = useState<File>();
+
 
   const internacionalization = {
     "selectSomeItems": "Selecione aqui todos os serviços que realiza",
@@ -197,19 +200,23 @@ const CreatePoint = () => {
     const services = selectedOptions.map(val => val.label).join(', ');
     const address = `${street} - N.º${number} - ${complement} | CEP:${cep} `
 
-    const data = {
-      name,
-      email,
-      whatsapp,
-      latitude,
-      longitude,
-      city,
-      uf,
-      address,
-      services,
-      phone,
-      items,
-    }
+    const data = new FormData();
+
+      data.append('name', name);
+      data.append('email', email);
+      data.append('whatsapp', whatsapp);
+      data.append('latitude', String(latitude));
+      data.append('longitude', String(longitude));
+      data.append('city', city);
+      data.append('uf', uf);
+      data.append('address', address);
+      data.append('services', services);
+      data.append('phone', phone);
+      data.append('items', items.join(','));
+
+      if(selectedImage){
+        data.append('image', selectedImage)
+      }
 
     await api.post('points', data);
 
@@ -233,6 +240,8 @@ const CreatePoint = () => {
 
       <form onSubmit={handleSubmit}>
         <h1>{Translate.map(app => app.CreatePoint.NEW_POINT)}</h1>
+
+        <Dropzone onImageLoaded={setSelectedImage}/>
 
         <fieldset>
           <legend>
