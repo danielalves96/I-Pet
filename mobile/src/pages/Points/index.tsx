@@ -18,6 +18,7 @@ interface Point {
   id: number;
   name: string;
   image: string;
+  image_url: string;
   latitude: string;
   longitude: string;
 }
@@ -102,18 +103,11 @@ const Points = () => {
 
     if (selectedItems.includes(id)) {
       const filteredItems = selectedItems.filter(item => item !== id);
-      console.log(selectedItems)
       return setSelectedItems(filteredItems);
     } 
     if (!selectedItems.includes(id)) {
-      console.log(selectedItems)
       return setSelectedItems([...selectedItems, id])
     }
-    
-    
-
-    
-
   }
 
 
@@ -142,7 +136,7 @@ const Points = () => {
               }}
               style={styles.map}
             >
-              {points.map(point => (
+              {selectedItems[0] !== undefined && (points.map(point => (
                  <Marker
                   key={String(point.id)}
                   style={styles.mapMarker}
@@ -152,11 +146,11 @@ const Points = () => {
                     longitude: Number(point.longitude),
                   }} >
                   <View style={styles.mapMarkerContainer}>
-                    <Image style={styles.mapMarkerImage} source={{ uri: point.image }} />
+                    <Image style={styles.mapMarkerImage} source={{ uri: point.image_url }} />
                     <Text style={styles.mapMarkerTitle} >{point.name}</Text>
                   </View>
                 </Marker>
-              ))}
+              )))}
 
             </MapView>
           )}

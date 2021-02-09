@@ -1,5 +1,6 @@
 import knex from '../database/connection';
 import { Request, Response } from 'express';
+import hostUrl  from '../contants'
 
 class PointsController {
 
@@ -15,7 +16,14 @@ class PointsController {
             .distinct()
             .select('points.*')
 
-        response.json({ points });
+        const serializedPoints = points.map(point =>{
+            return {
+                ...point,
+                image_url: `${hostUrl}:3333/src/point_images/${point.image}`
+            }
+        })
+
+        response.json({ serializedPoints });
 
     };
 
@@ -33,7 +41,13 @@ class PointsController {
             .where('point_items.point_id', id)
             .select('items.title');
 
-        response.json({ point, items });
+        const serializedPoint = {
+            ...point,
+            image_url: `${hostUrl}:3333/src/point_images/${point.image}`
+        
+        };
+
+        response.json({ serializedPoint, items });
     };
 
     async create(request: Request, response: Response) {
@@ -56,7 +70,7 @@ class PointsController {
             const trx = await knex.transaction();
 
             const point = {
-                image: 'https://amapa.ind.br/blog/wp-content/uploads/2020/03/Post_Ja-esta-em-vigor-a-nova-regulamentacao-para-as-pet-shops.jpg',
+                image: request.file.filename,
                 name,
                 email,
                 whatsapp,
@@ -74,6 +88,8 @@ class PointsController {
             const point_id = insertedIds[0];
 
             const pointItems = items
+                .split(',')
+                .map((item : string) => Number(item.trim()))
                 .map((item_id: number) => {
                     return {
                         item_id,

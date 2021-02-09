@@ -13,4 +13,6 @@ app.use(routes);
 
 app.use('/items', express.static(path.resolve(__dirname, '..', 'items')));
 
+app.use('/src/point_images', express.static(path.resolve(__dirname, '..', 'src', 'point_images')));
+
 app.listen(3333);

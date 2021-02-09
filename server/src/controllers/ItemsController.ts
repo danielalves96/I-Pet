@@ -1,5 +1,6 @@
 import knex from '../database/connection';
 import { Request, Response } from 'express';
+import hostUrl  from '../contants'
 
 class ItemsController {
     async index (request: Request, response: Response) {
@@ -9,7 +10,7 @@ class ItemsController {
             return {
                 id: item.id,
                 title: item.title,
-                image_url: `http://localhost:3333/items/${item.image}`
+                image_url: `${hostUrl}:3333/items/${item.image}`
             }
         })
         response.json(serializedItems);
