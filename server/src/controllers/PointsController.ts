@@ -80,7 +80,8 @@ class PointsController {
                 address,
                 uf,
                 services,
-                phone
+                phone,
+                is_paid: true
             }
 
             const insertedIds = await trx("points").insert(point, 'id');

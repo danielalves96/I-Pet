@@ -31,6 +31,8 @@ const CreatePoint = () => {
     nome: string;
   }
 
+  const accessToken = 'ipet12345';
+
   const [items, setItems] = useState<Item[]>([]);
   const [ufs, setUfs] = useState<string[]>([]);
   const [cities, setCities] = useState<string[]>([]);
@@ -45,6 +47,10 @@ const CreatePoint = () => {
     street: '',
     phone: '',
     complement: ''
+  })
+
+  const [insertedPassword, setInsertedPassword] = useState({
+    password: '',
   })
 
   const options = [
@@ -76,8 +82,9 @@ const CreatePoint = () => {
   ];
 
   const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
-  const [initialPosition, setInitialPosition] = useState<[number, number]>([-23.5560633,-46.6591996])
+  const [initialPosition, setInitialPosition] = useState<[number, number]>([-23.5560633, -46.6591996])
   const [selectedUf, setSelectedUf] = useState('0');
+  const [inputedPassword, setInpudetPassword] = useState(false);
   const [selectedCity, setSelectedCity] = useState('0');
   const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0]);
   const [selectedImage, setSelectedImage] = useState<File>();
@@ -98,7 +105,7 @@ const CreatePoint = () => {
       const { latitude, longitude } = position.coords;
 
       setInitialPosition([latitude, longitude]);
-      setSelectedPosition ([latitude, longitude]);
+      setSelectedPosition([latitude, longitude]);
 
       //Dados da URL via HERE Maps
       const apiKey = 'i2a6F4RTvYOzSV13QJdgudZv5GGOd9oFJ79AQc3UYWY'
@@ -111,8 +118,8 @@ const CreatePoint = () => {
         const response = await axios.get(baseUrl);
         const { items } = (response.data);
 
-        const currentState = items.map((item : any)  => item.address.stateCode).toString()
-        const currentCity = items.map((item : any)  => item.address.city).toString()
+        const currentState = items.map((item: any) => item.address.stateCode).toString()
+        const currentCity = items.map((item: any) => item.address.city).toString()
 
         setSelectedCity(currentCity);
         setSelectedUf(currentState);
@@ -164,14 +171,38 @@ const CreatePoint = () => {
     setSelectedCity(city);
   }
 
+
+
   function handleMapClick(event: LeafletMouseEvent) {
     setSelectedPosition([event.latlng.lat, event.latlng.lng])
+  }
+
+  function confirmPassword() {
+    const { password } = insertedPassword;
+
+    if (password === '') {
+      alert('Por favor informe uma senha de acesso para poder cadastrar um novo estabelecimento.');
+      return;
+    }
+
+    if (password === accessToken) {
+      setInpudetPassword(true);
+    } else {
+      alert('A senha informada está incorreta ou não tem acesso ao cadastro de estabelecimentos I-PET.');
+    }
   }
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
 
     setFormData({ ...formData, [name]: value })
+
+  }
+
+  function handlePassword(event: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target;
+
+    setInsertedPassword({ ...insertedPassword, [name]: value })
 
   }
 
@@ -202,21 +233,21 @@ const CreatePoint = () => {
 
     const data = new FormData();
 
-      data.append('name', name);
-      data.append('email', email);
-      data.append('whatsapp', whatsapp);
-      data.append('latitude', String(latitude));
-      data.append('longitude', String(longitude));
-      data.append('city', city);
-      data.append('uf', uf);
-      data.append('address', address);
-      data.append('services', services);
-      data.append('phone', phone);
-      data.append('items', items.join(','));
+    data.append('name', name);
+    data.append('email', email);
+    data.append('whatsapp', whatsapp);
+    data.append('latitude', String(latitude));
+    data.append('longitude', String(longitude));
+    data.append('city', city);
+    data.append('uf', uf);
+    data.append('address', address);
+    data.append('services', services);
+    data.append('phone', phone);
+    data.append('items', items.join(','));
 
-      if(selectedImage){
-        data.append('image', selectedImage)
-      }
+    if (selectedImage) {
+      data.append('image', selectedImage)
+    }
 
     await api.post('points', data);
 
@@ -228,211 +259,245 @@ const CreatePoint = () => {
 
   // Página HTML em TSX
   return (
-    <div id="page-create-point">
-      <header>
-        <img className="width-15" src={logo} alt="I-PET" />
+    <>
+      {inputedPassword && (
+        <div id="page-create-point">
+          <header>
+            <img className="width-15" src={logo} alt="I-PET" />
 
-        <Link to="/">
-          <FiArrowLeft />
-          {Translate.map(app => app.CreatePoint.BACK_HOME)}
-        </Link>
-      </header>
+            <Link to="/">
+              <FiArrowLeft />
+              {Translate.map(app => app.CreatePoint.BACK_HOME)}
+            </Link>
+          </header>
 
-      <form onSubmit={handleSubmit}>
-        <h1>{Translate.map(app => app.CreatePoint.NEW_POINT)}</h1>
+          <form onSubmit={handleSubmit}>
+            <h1>{Translate.map(app => app.CreatePoint.NEW_POINT)}</h1>
 
-        <Dropzone onImageLoaded={setSelectedImage}/>
+            <Dropzone onImageLoaded={setSelectedImage} />
 
-        <fieldset>
-          <legend>
-            <h2>{Translate.map(app => app.CreatePoint.DATA)}</h2>
-          </legend>
+            <fieldset>
+              <legend>
+                <h2>{Translate.map(app => app.CreatePoint.DATA)}</h2>
+              </legend>
 
-          <div className="field">
-            <label htmlFor="name">{Translate.map(app => app.CreatePoint.POINT_NAME)}</label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              onChange={handleInputChange}
-              required
-              placeholder={Translate.map(app => app.CreatePoint.POINT_NAME_EXAMPLE).toString()}
-            />
-          </div>
+              <div className="field">
+                <label htmlFor="name">{Translate.map(app => app.CreatePoint.POINT_NAME)}</label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  onChange={handleInputChange}
+                  required
+                  placeholder={Translate.map(app => app.CreatePoint.POINT_NAME_EXAMPLE).toString()}
+                />
+              </div>
 
-          <div className="field">
-            <label htmlFor="email">{Translate.map(app => app.CreatePoint.EMAIL)}</label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              onChange={handleInputChange}
-              required
-              placeholder={Translate.map(app => app.CreatePoint.EMAIL_EXAMPLE).toString()}
-            />
-          </div>
+              <div className="field">
+                <label htmlFor="email">{Translate.map(app => app.CreatePoint.EMAIL)}</label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  onChange={handleInputChange}
+                  required
+                  placeholder={Translate.map(app => app.CreatePoint.EMAIL_EXAMPLE).toString()}
+                />
+              </div>
 
-          <div className="field-group">
-            <div className="field">
-              <label htmlFor="whatsapp">{Translate.map(app => app.CreatePoint.WHATSAPP)}</label>
-              <InputMask
-                mask="(99)99999-9999"
-                type="text"
-                name="whatsapp"
-                id="whatsapp"
-                onChange={handleInputChange}
-                required
-                placeholder="Ex.: (41)99999-9999"
+              <div className="field-group">
+                <div className="field">
+                  <label htmlFor="whatsapp">{Translate.map(app => app.CreatePoint.WHATSAPP)}</label>
+                  <InputMask
+                    mask="(99)99999-9999"
+                    type="text"
+                    name="whatsapp"
+                    id="whatsapp"
+                    onChange={handleInputChange}
+                    required
+                    placeholder="Ex.: (41)99999-9999"
+                  />
+                </div>
+
+                <div className="field">
+                  <label htmlFor="phone">{Translate.map(app => app.CreatePoint.PHONE)}</label>
+                  <InputMask
+                    mask="(99)9999-9999"
+                    type="text"
+                    name="phone"
+                    id="phone"
+                    onChange={handleInputChange}
+                    placeholder="Ex.: (41)9999-9999"
+                  />
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>
+                <h2>{Translate.map(app => app.CreatePoint.ADDRESS)}</h2>
+                <span>{Translate.map(app => app.CreatePoint.SELECT_ADDRESS)}</span>
+              </legend>
+
+              <Map center={initialPosition} zoom={16} onclick={handleMapClick}>
+                <TileLayer
+                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <Marker position={selectedPosition} />
+              </Map>
+
+              <div className="field-group">
+                <div className="field">
+                  <label htmlFor="uf">{Translate.map(app => app.CreatePoint.STATE)}</label>
+                  <select
+                    name="uf"
+                    id="uf"
+                    value={selectedUf}
+                    onChange={handleSelectUf}
+                    required
+                  >
+                    <option disabled value="0">{Translate.map(app => app.CreatePoint.SELECT_STATE)}</option>
+                    {ufs.map(uf => (
+                      <option key={uf} value={uf}>{uf}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="field">
+                  <label htmlFor="city">{Translate.map(app => app.CreatePoint.CITY)}</label>
+                  <select
+                    name="city"
+                    id="city"
+                    value={selectedCity}
+                    onChange={handleSelectCity}
+                    required
+                  >
+                    <option disabled value="0">{Translate.map(app => app.CreatePoint.SELECT_CITY)}</option>
+                    {cities.map(city => (
+                      <option key={city} value={city}>{city}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="field-group">
+                <div className="field">
+                  <label htmlFor="cep">{Translate.map(app => app.CreatePoint.POSTAL_CODE)}</label>
+                  <InputMask
+                    mask="99.999-999"
+                    type="text"
+                    name="cep"
+                    id="cep"
+                    onChange={handleInputChange}
+                    required
+                    placeholder="Ex.: 81.900-456"
+                  />
+                </div>
+
+                <div className="field">
+                  <label htmlFor="number">{Translate.map(app => app.CreatePoint.HOUSE_NUMBER)}</label>
+                  <input
+                    type="text"
+                    name="number"
+                    id="number"
+                    onChange={handleInputChange}
+                    placeholder="Ex.: 1900"
+                  />
+                </div>
+              </div>
+
+              <div className="field">
+                <label htmlFor="street">{Translate.map(app => app.CreatePoint.STREET)}</label>
+                <input
+                  type="text"
+                  name="street"
+                  id="street"
+                  onChange={handleInputChange}
+                  required
+                  placeholder={Translate.map(app => app.CreatePoint.STREET_EXAMPLE).toString()}
+                />
+              </div>
+
+              <div className="field">
+                <label htmlFor="complement">{Translate.map(app => app.CreatePoint.COMPLEMENT)}</label>
+                <input
+                  type="text"
+                  name="complement"
+                  id="complement"
+                  onChange={handleInputChange}
+                  required
+                  placeholder={Translate.map(app => app.CreatePoint.COMPLEMENT_EXAMPLE).toString()}
+                />
+              </div>
+
+            </fieldset>
+
+            <fieldset>
+              <legend>
+                <h2>{Translate.map(app => app.CreatePoint.SERVICE_CATEGORY)}</h2>
+                <span>{Translate.map(app => app.CreatePoint.SERVICE_CATEGORY)}</span>
+              </legend>
+
+              <ul className="items-grid">
+                {items.map(item =>
+                (<li key={item.id} onClick={() => handleSelectItem(item.id)} className={selectedItems.includes(item.id) ? 'selected' : ''}>
+                  <img src={item.image_url} alt={item.title} />
+                  <span>{item.title}</span>
+                </li>)
+                )}
+              </ul>
+            </fieldset>
+
+            <fieldset>
+              <legend>
+                <h2>{Translate.map(app => app.CreatePoint.OTHER_SERVICES)}</h2>
+              </legend>
+
+              <MultiSelect
+                options={options}
+                value={selectedOptions}
+                onChange={setSelectedOptions}
+                labelledBy={"Select"}
+                overrideStrings={internacionalization}
               />
-            </div>
+            </fieldset>
 
-            <div className="field">
-              <label htmlFor="phone">{Translate.map(app => app.CreatePoint.PHONE)}</label>
-              <InputMask
-                mask="(99)9999-9999"
-                type="text"
-                name="phone"
-                id="phone"
-                onChange={handleInputChange}
-                placeholder="Ex.: (41)9999-9999"
-              />
-            </div>
-          </div>
-        </fieldset>
+            <button className="btn-submit" type="submit">{Translate.map(app => app.CreatePoint.SUBMIT)}</button>
+          </form>
+        </div>
+      )}
+      {!inputedPassword && (
+        <div id="page-create-point">
+          <header>
+            <img className="width-15" src={logo} alt="I-PET" />
 
-        <fieldset>
-          <legend>
-            <h2>{Translate.map(app => app.CreatePoint.ADDRESS)}</h2>
-            <span>{Translate.map(app => app.CreatePoint.SELECT_ADDRESS)}</span>
-          </legend>
+            <Link to="/">
+              <FiArrowLeft />
+              {Translate.map(app => app.CreatePoint.BACK_HOME)}
+            </Link>
+          </header>
 
-          <Map center={initialPosition} zoom={16} onclick={handleMapClick}>
-            <TileLayer
-              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <Marker position={selectedPosition} />
-          </Map>
-
-          <div className="field-group">
-            <div className="field">
-              <label htmlFor="uf">{Translate.map(app => app.CreatePoint.STATE)}</label>
-              <select
-                name="uf"
-                id="uf"
-                value={selectedUf}
-                onChange={handleSelectUf}
-                required
-              >
-                <option disabled value="0">{Translate.map(app => app.CreatePoint.SELECT_STATE)}</option>
-                {ufs.map(uf => (
-                  <option key={uf} value={uf}>{uf}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="field">
-              <label htmlFor="city">{Translate.map(app => app.CreatePoint.CITY)}</label>
-              <select
-                name="city"
-                id="city"
-                value={selectedCity}
-                onChange={handleSelectCity}
-                required
-              >
-                <option disabled value="0">{Translate.map(app => app.CreatePoint.SELECT_CITY)}</option>
-                {cities.map(city => (
-                  <option key={city} value={city}>{city}</option>
-                ))}
-              </select>
-            </div>
+          <div className="boxed">
+            <fieldset className="no-top" >
+              <h2 className='message'>Informe a senha de acesso para o cadastro de um novo estabalecimento no I-PET</h2>
+              <div className="field ">
+                <label htmlFor="number">Senha de acesso:</label>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="Digite aqui sua senha"
+                  onChange={handlePassword}
+                />
+              </div>
+            </fieldset>
+            <button className="btn-submit" type="button" onClick={confirmPassword} >Validar senha de acesso</button>
           </div>
 
-          <div className="field-group">
-            <div className="field">
-              <label htmlFor="cep">{Translate.map(app => app.CreatePoint.POSTAL_CODE)}</label>
-              <InputMask
-                mask="99.999-999"
-                type="text"
-                name="cep"
-                id="cep"
-                onChange={handleInputChange}
-                required
-                placeholder="Ex.: 81.900-456"
-              />
-            </div>
-
-            <div className="field">
-              <label htmlFor="number">{Translate.map(app => app.CreatePoint.HOUSE_NUMBER)}</label>
-              <input
-                type="text"
-                name="number"
-                id="number"
-                onChange={handleInputChange}
-                placeholder="Ex.: 1900"
-              />
-            </div>
-          </div>
-
-          <div className="field">
-            <label htmlFor="street">{Translate.map(app => app.CreatePoint.STREET)}</label>
-            <input
-              type="text"
-              name="street"
-              id="street"
-              onChange={handleInputChange}
-              required
-              placeholder={Translate.map(app => app.CreatePoint.STREET_EXAMPLE).toString()}
-            />
-          </div>
-
-          <div className="field">
-            <label htmlFor="complement">{Translate.map(app => app.CreatePoint.COMPLEMENT)}</label>
-            <input
-              type="text"
-              name="complement"
-              id="complement"
-              onChange={handleInputChange}
-              required
-              placeholder={Translate.map(app => app.CreatePoint.COMPLEMENT_EXAMPLE).toString()}
-            />
-          </div>
-
-        </fieldset>
-
-        <fieldset>
-          <legend>
-            <h2>{Translate.map(app => app.CreatePoint.SERVICE_CATEGORY)}</h2>
-            <span>{Translate.map(app => app.CreatePoint.SERVICE_CATEGORY)}</span>
-          </legend>
-
-          <ul className="items-grid">
-            {items.map(item =>
-              (<li key={item.id} onClick={() => handleSelectItem(item.id)} className={selectedItems.includes(item.id) ? 'selected' : ''}>
-                <img src={item.image_url} alt={item.title} />
-                <span>{item.title}</span>
-              </li>)
-            )}
-          </ul>
-        </fieldset>
-
-        <fieldset>
-          <legend>
-            <h2>{Translate.map(app => app.CreatePoint.OTHER_SERVICES)}</h2>
-          </legend>
-
-          <MultiSelect
-            options={options}
-            value={selectedOptions}
-            onChange={setSelectedOptions}
-            labelledBy={"Select"}
-            overrideStrings={internacionalization}
-          />
-        </fieldset>
-
-        <button className="btn-submit" type="submit">{Translate.map(app => app.CreatePoint.SUBMIT)}</button>
-      </form>
-    </div>
+        </div>
+      )}
+    </>
   );
 };
 

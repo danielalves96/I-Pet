@@ -14,6 +14,8 @@ export async function up(knex: Knex) {
         table.string('services').notNullable();
         table.string('address').notNullable();
         table.string('phone').notNullable();
+        table.boolean('is_paid').notNullable();
+        table.timestamp('created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
     })
 };
 

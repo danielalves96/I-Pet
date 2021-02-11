@@ -35,6 +35,17 @@
     flex-direction: column;
 }
 
+#page-create-point .boxed {
+    margin: 80px auto;
+    margin-bottom: 180px !important;
+    padding: 64px;
+    max-width: 730px;
+    background: #FFF;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
 #page-create-point form h1 {
     font-size: 36px;
 }
@@ -141,6 +152,114 @@
     margin-bottom: 24px;
 }
 
+#page-create-point .boxed h1 {
+    font-size: 36px;
+}
+
+#page-create-point .boxed fieldset {
+    margin-top: 64px;
+    min-inline-size: auto;
+    border: 0;
+}
+
+#page-create-point .boxed legend {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+#page-create-point .boxed legend h2 {
+    font-size: 24px;
+}
+
+#page-create-point .boxed legend span {
+    font-size: 14px;
+    font-weight: normal;
+    color: var(--text-color);
+}
+
+#page-create-point .boxed .field-group {
+    flex: 1;
+    display: flex;
+}
+
+#page-create-point .boxed .field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
+}
+
+#page-create-point .boxed .field input[type=text],
+#page-create-point .boxed .field input[type=email],
+#page-create-point .boxed .field input[type=number],
+#page-create-point .boxed .field input[type=password] {
+    flex: 1;
+    background: #F0F0F5;
+    border-radius: 8px;
+    border: 0;
+    padding: 16px 21px;
+    font-size: 16px;
+    color: #6C6C80;
+}
+
+#page-create-point .boxed .field select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    flex: 1;
+    background: #F0F0F5;
+    border-radius: 8px;
+    border: 0;
+    padding: 16px 24px;
+    font-size: 16px;
+    color: #6C6C80;
+}
+
+#page-create-point .boxed .field input::placeholder {
+    color: #A0A0B2;
+}
+
+#page-create-point .boxed .field label {
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+#page-create-point .boxed .field :disabled {
+    cursor: not-allowed;
+}
+
+#page-create-point .boxed .field-group .field+.field {
+    margin-left: 24px;
+}
+
+#page-create-point .boxed .field-group input+input {
+    margin-left: 24px;
+}
+
+#page-create-point .boxed .field-check {
+    flex-direction: row;
+    align-items: center;
+}
+
+#page-create-point .boxed .field-check input[type=checkbox] {
+    background: #F0F0F5;
+}
+
+#page-create-point .boxed .field-check label {
+    margin: 0 0 0 8px;
+}
+
+#page-create-point .boxed .leaflet-container {
+    width: 100%;
+    height: 350px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+}
+
+
 .btn-submit {
     width: 260px;
     height: 56px;
@@ -201,4 +320,13 @@
 
 .width-15 {
     width: 15%;
+}
+
+.message {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.no-top {
+    margin-top: 0 !important;
 }
