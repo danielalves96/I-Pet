@@ -30,8 +30,6 @@ export const styles = StyleSheet.create({
 
     footer: {},
 
-    select: {},
-
     input: {
         height: 60,
         backgroundColor: '#FFF',

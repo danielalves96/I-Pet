@@ -9,6 +9,7 @@ import { LeafletMouseEvent } from "leaflet";
 import { Translate } from '../../Internacionalization/PR_BR';
 import Dropzone from '../../components/Dropzone'
 
+
 import api from '../../services/api'
 
 import "./styles.css";
