@@ -63,7 +63,9 @@ class PointsController {
                 address,
                 services,
                 items,
-                phone
+                phone,
+                plan,
+                seller,
             } = request.body;
 
 
@@ -81,6 +83,8 @@ class PointsController {
                 uf,
                 services,
                 phone,
+                plan,
+                seller,
                 is_paid: true
             }
 

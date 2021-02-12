@@ -22,7 +22,6 @@ const CreatePoint = () => {
     title: string,
     image_url: string
   }
-
   interface UFIBGEResponse {
     sigla: string;
   }
@@ -46,7 +45,9 @@ const CreatePoint = () => {
     number: '',
     street: '',
     phone: '',
-    complement: ''
+    complement: '',
+    plan: '',
+    seller: '',
   })
 
   const [insertedPassword, setInsertedPassword] = useState({
@@ -81,9 +82,22 @@ const CreatePoint = () => {
     { label: "Venda de rações", value: "Venda de rações" },
   ];
 
+  const plans = [
+    { label: "Anual", value: "one_year" },
+    { label: "Dois anos", value: "two_years" },
+    { label: "Três anos", value: "tree_years" }
+  ];
+
+  const sellers = [
+    "Daniel Luiz Alves",
+    "Paola Oliveira",
+  ]
+
   const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
   const [initialPosition, setInitialPosition] = useState<[number, number]>([-23.5560633, -46.6591996])
   const [selectedUf, setSelectedUf] = useState('0');
+  const [selectedSeller, setSelectedSeller] = useState('0');
+  const [selectedPlan, setSelectedPlan] = useState('0');
   const [inputedPassword, setInpudetPassword] = useState(false);
   const [selectedCity, setSelectedCity] = useState('0');
   const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0]);
@@ -165,12 +179,23 @@ const CreatePoint = () => {
     setSelectedUf(uf);
   }
 
+  function handleSelectSeller(event: ChangeEvent<HTMLSelectElement>) {
+    const seller = event.target.value;
+
+    setSelectedSeller(seller);
+  }
+
+  function handleSelectPlan(event: ChangeEvent<HTMLSelectElement>) {
+    const plan = event.target.value;
+
+    setSelectedPlan(plan);
+  }
+
   function handleSelectCity(event: ChangeEvent<HTMLSelectElement>) {
     const city = event.target.value;
 
     setSelectedCity(city);
   }
-
 
 
   function handleMapClick(event: LeafletMouseEvent) {
@@ -226,6 +251,8 @@ const CreatePoint = () => {
     const { name, whatsapp, email, cep, number, street, phone, complement } = formData;
     const uf = selectedUf;
     const city = selectedCity;
+    const plan = selectedPlan;
+    const seller = selectedSeller;
     const [latitude, longitude] = selectedPosition;
     const items = selectedItems;
     const services = selectedOptions.map(val => val.label).join(', ');
@@ -243,11 +270,15 @@ const CreatePoint = () => {
     data.append('address', address);
     data.append('services', services);
     data.append('phone', phone);
+    data.append('plan', plan);
+    data.append('seller', seller);
     data.append('items', items.join(','));
 
     if (selectedImage) {
       data.append('image', selectedImage)
     }
+
+    console.log(data)
 
     await api.post('points', data);
 
@@ -271,7 +302,7 @@ const CreatePoint = () => {
             </Link>
           </header>
 
-          <form onSubmit={handleSubmit}>
+          <form>
             <h1>{Translate.map(app => app.CreatePoint.NEW_POINT)}</h1>
 
             <Dropzone onImageLoaded={setSelectedImage} />
@@ -431,6 +462,38 @@ const CreatePoint = () => {
                 />
               </div>
 
+              <div className="field">
+                <label htmlFor="seller">Vendedor</label>
+                <select
+                  name="seller"
+                  id="seller"
+                  value={selectedSeller}
+                  onChange={handleSelectSeller}
+                  required
+                >
+                  <option disabled value="0">Selecione um vendedor</option>
+                  {sellers.map(seller => (
+                    <option key={seller} value={seller}>{seller}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="field">
+                <label htmlFor="plan">Plano de aquisição</label>
+                <select
+                  name="plan"
+                  id="plan"
+                  value={selectedPlan}
+                  onChange={handleSelectPlan}
+                  required
+                >
+                  <option disabled value="0">Selecione um plano de aquisição</option>
+                  {plans.map(plan => (
+                    <option key={plan.value} value={plan.value}>{plan.label}</option>
+                  ))}
+                </select>
+              </div>
+
             </fieldset>
 
             <fieldset>
@@ -463,7 +526,7 @@ const CreatePoint = () => {
               />
             </fieldset>
 
-            <button className="btn-submit" type="submit">{Translate.map(app => app.CreatePoint.SUBMIT)}</button>
+            <button className="btn-submit" onClick={handleSubmit} type="button">{Translate.map(app => app.CreatePoint.SUBMIT)}</button>
           </form>
         </div>
       )}
