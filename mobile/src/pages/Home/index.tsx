@@ -117,17 +117,19 @@ const pickerSelectStyles = StyleSheet.create({
         height: 60,
         backgroundColor: '#FFF',
         borderRadius: 10,
-        marginBottom: 8,
+        marginBottom: 10,
         paddingHorizontal: 24,
-        fontSize: 16, 
+        marginTop: 8,
+        fontSize: 16,
     },
     inputAndroid: {
         height: 60,
         backgroundColor: '#FFF',
         borderRadius: 10,
-        marginBottom: 8,
+        marginBottom: 10,
         paddingHorizontal: 24,
-        fontSize: 16, 
+        marginTop: 8,
+        fontSize: 16,
     },
 });
 

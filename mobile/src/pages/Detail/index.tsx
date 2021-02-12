@@ -22,6 +22,7 @@ interface Data {
     uf: string;
     address: string;
     services: string;
+    phone: string;
   };
   items: {
     title: string;
@@ -66,9 +67,9 @@ const Detail = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <View style={styles.header}>
-        <TouchableOpacity onPress={handleNavigateBack}>
-          <Icon name="arrow-left" size={25} color="#47D4AC"/>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={handleNavigateBack}>
+            <Icon name="arrow-left" size={25} color="#47D4AC" />
+          </TouchableOpacity>
         </View>
 
         <Image style={styles.image} source={require('../../assets/logo.png')} />
@@ -84,15 +85,19 @@ const Detail = () => {
           <Text style={styles.addressTitle}>Endereço</Text>
           <Text style={styles.addressContent}>{data.point.address}</Text>
         </View>
+        <View style={styles.address}>
+          <Text style={styles.addressTitle}>Telefone</Text>
+          <Text style={styles.addressContent}>{data.point.phone}</Text>
+        </View>
       </View>
       <View style={styles.footer}>
         <RectButton style={styles.button} onPress={handleWhatsapp}>
-          <FontAwesome name="whatsapp" size={20} color="#002B49"/>
+          <FontAwesome name="whatsapp" size={20} color="#002B49" />
           <Text style={styles.buttonText}>Whatsapp</Text>
         </RectButton>
 
         <RectButton style={styles.button} onPress={handleComposeMail}>
-          <Icon name="mail" size={20} color="#002B49"/>
+          <Icon name="mail" size={20} color="#002B49" />
           <Text style={styles.buttonText}>E-mail</Text>
         </RectButton>
       </View>
