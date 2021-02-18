@@ -82,8 +82,8 @@ const Points = () => {
           items: selectedItems
         }
       });
-      const { points } = (response.data);
-      setPoints(points);
+      const { serializedPoints } = (response.data);
+      setPoints(serializedPoints);
 
     }
 
@@ -100,13 +100,15 @@ const Points = () => {
   }
 
   function handleSelectItem(id: number) {
-
+    
     if (selectedItems.includes(id)) {
       const filteredItems = selectedItems.filter(item => item !== id);
-      return setSelectedItems(filteredItems);
+      setSelectedItems(filteredItems);
+      return;
     } 
     if (!selectedItems.includes(id)) {
-      return setSelectedItems([...selectedItems, id])
+      setSelectedItems([...selectedItems, id])
+      return;
     }
   }
 

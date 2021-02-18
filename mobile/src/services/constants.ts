@@ -1,3 +1,3 @@
-const hostUrl = 'http://localhost';
+const hostUrl = 'http://ipet-backend.herokuapp.com';
 
 export default hostUrl;
