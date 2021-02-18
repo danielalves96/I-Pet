@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Constants from 'expo-constants';
 import { Feather as Icon } from '@expo/vector-icons'
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, Alert, ActivityIndicator } from 'react-native';
 import { useNavigation, useRoute } from "@react-navigation/native";
 import MapView, { Marker } from 'react-native-maps';
 import { SvgUri as Svg } from 'react-native-svg';
 import api from '../../services/api';
-import * as Location from 'expo-location'
+import axios from 'axios'
 
 interface Item {
   id: number;
@@ -46,28 +46,26 @@ const Points = () => {
 
   useEffect(() => {
     async function loadPosition() {
-      const { status } = await Location.requestPermissionsAsync();
+      axios.get(`https://geocode.search.hereapi.com/v1/geocode?q=${routeParms.uf}+${routeParms.city}&apikey=i2a6F4RTvYOzSV13QJdgudZv5GGOd9oFJ79AQc3UYWY`).then(response => {
+        const {items} = response.data;
 
-      if (status !== 'granted') {
-        Alert.alert('Oooops...', 'Precisamos de sua permissão para obter a localização');
-        return;
-      }
+        const latitude = parseFloat(items.map((item: any) => item.position.lat.toString()));
+        const longitude = parseFloat(items.map((item: any) => item.position.lng.toString()));
 
-      const location = await Location.getCurrentPositionAsync();
+        setInitialPosition([
+          latitude,
+          longitude
+        ])
+      });
 
-      const { latitude, longitude } = location.coords;
-
-      setInitialPosition([
-        latitude,
-        longitude
-      ])
     }
     loadPosition();
   }, [])
 
   useEffect(() => {
-    api.get('items').then(response => {
-      setItems(response.data);
+    axios.get<any[]>('http://ipet-backend.herokuapp.com/items').then(response => {
+      const items = response.data;
+      setItems(items)
     });
 
   }, []);
@@ -75,16 +73,10 @@ const Points = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await api.get('points', {
-        params: {
-          city: routeParms.city,
-          uf: routeParms.uf,
-          items: selectedItems
-        }
+      axios.get(`http://ipet-backend.herokuapp.com/points?city=${routeParms.city}&uf=${routeParms.uf}&items=${selectedItems}`).then(response => {
+        const { serializedPoints } = (response.data);
+        setPoints(serializedPoints);
       });
-      const { serializedPoints } = (response.data);
-      setPoints(serializedPoints);
-
     }
 
     fetchData();
@@ -96,16 +88,16 @@ const Points = () => {
   }
 
   function handleNavigateToDetail(id: number) {
-    navigation.navigate('Detail', {point_id:id});
+    navigation.navigate('Detail', { point_id: id });
   }
 
   function handleSelectItem(id: number) {
-    
+
     if (selectedItems.includes(id)) {
       const filteredItems = selectedItems.filter(item => item !== id);
       setSelectedItems(filteredItems);
       return;
-    } 
+    }
     if (!selectedItems.includes(id)) {
       setSelectedItems([...selectedItems, id])
       return;
@@ -139,7 +131,7 @@ const Points = () => {
               style={styles.map}
             >
               {selectedItems[0] !== undefined && (points.map(point => (
-                 <Marker
+                <Marker
                   key={String(point.id)}
                   style={styles.mapMarker}
                   onPress={() => handleNavigateToDetail(point.id)}
@@ -155,6 +147,13 @@ const Points = () => {
               )))}
 
             </MapView>
+          )}
+
+          {initialPosition[0] === 0 && (
+            <View style={styles.center}>
+              <ActivityIndicator size="large" color="#47D4AC" />
+              <Text style={styles.itemTitle}>Carregando...</Text>
+            </View>
           )}
 
         </View>
@@ -197,6 +196,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 4,
     fontFamily: 'Roboto_400Regular',
+  },
+
+  center: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    paddingTop: 20,
   },
 
   mapContainer: {
