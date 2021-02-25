@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Image, Text, SafeAreaView, Linking } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, Text, SafeAreaView, Linking, ScrollView } from 'react-native';
 import { Feather as Icon, FontAwesome } from '@expo/vector-icons'
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { RectButton } from 'react-native-gesture-handler';
@@ -67,32 +67,36 @@ const Detail = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={handleNavigateBack}>
-            <Icon name="arrow-left" size={25} color="#47D4AC" />
-          </TouchableOpacity>
-        </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <TouchableOpacity onPress={handleNavigateBack}>
+              <Icon name="arrow-left" size={25} color="#47D4AC" />
+            </TouchableOpacity>
+          </View>
 
-        <Image style={styles.image} source={require('../../assets/logo.png')} />
+          <Image style={styles.image} source={require('../../assets/logo.png')} />
 
-        <Image style={styles.pointImage} source={{ uri: data.serializedPoint.image_url }} />
-        <Text style={styles.pointName}>{data.serializedPoint.name}</Text>
-        <Text style={styles.pointItems}>{data.items.map(item => item.title).join(', ')}</Text>
-        <View style={styles.address}>
-          <Text style={styles.addressTitle}>Serviços</Text>
-          <Text style={styles.addressContent}>{data.serializedPoint.services}</Text>
+          <Image style={styles.pointImage} source={{ uri: data.serializedPoint.image_url }} />
+          <Text style={styles.pointName}>{data.serializedPoint.name}</Text>
+          <Text style={styles.pointItems}>{data.items.map(item => item.title).join(', ')}</Text>
+          <View style={styles.address}>
+            <Text style={styles.addressTitle}>Serviços</Text>
+            <Text style={styles.addressContent}>{data.serializedPoint.services}</Text>
+          </View>
+          <View style={styles.address}>
+            <Text style={styles.addressTitle}>Endereço</Text>
+            <Text style={styles.addressContent}>{data.serializedPoint.address}</Text>
+          </View>
+          <View style={styles.address}>
+            <Text style={styles.addressTitle}>Telefone</Text>
+            <Text style={styles.addressContent}>{data.serializedPoint.phone}</Text>
+          </View>
         </View>
-        <View style={styles.address}>
-          <Text style={styles.addressTitle}>Endereço</Text>
-          <Text style={styles.addressContent}>{data.serializedPoint.address}</Text>
-        </View>
-        <View style={styles.address}>
-          <Text style={styles.addressTitle}>Telefone</Text>
-          <Text style={styles.addressContent}>{data.serializedPoint.phone}</Text>
-        </View>
-      </View>
+      </ScrollView>
+
       <View style={styles.footer}>
+        
         <RectButton style={styles.button} onPress={handleWhatsapp}>
           <FontAwesome name="whatsapp" size={20} color="#002B49" />
           <Text style={styles.buttonText}>Whatsapp</Text>
