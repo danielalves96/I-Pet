@@ -80,6 +80,7 @@ const Home = () => {
 
             <RNPickerSelect
                 onValueChange={setUf}
+                useNativeAndroidPickerStyle={true}
                 value={uf}
                 style={pickerSelectStyles}
                 placeholder={placeholderUf}
@@ -130,6 +131,7 @@ const pickerSelectStyles = StyleSheet.create({
         paddingHorizontal: 24,
         marginTop: 8,
         fontSize: 16,
+        color: '#000',
     },
 });
 

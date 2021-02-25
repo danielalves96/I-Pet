@@ -21,7 +21,18 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "bundleIdentifier": "com.danielluizalvesmadeireira.mobile"
+    },
+    "android": {
+      "package": "com.danielluizalvesmadeireira.mobile",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCtNUTZcdVRtAV-5BuGFVr3-YQBjl0DWUg"
+        }
+      }
     }
   }
 }
+
+
