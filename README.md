@@ -10,7 +10,7 @@
 
 </div>
 
-![Banner](https://raw.githubusercontent.com/danielalves96/Images/master/Projetos/IPET/Group%2015.png?token=AO6ZGFJ73NUBTC6AGTHY5PDAH6PLS)
+![Banner](https://github.com/danielalves96/Images/blob/master/Projetos/IPET/Group%2015.png?raw=true)
 
 
 ## **:rocket: OBJETIVO**
