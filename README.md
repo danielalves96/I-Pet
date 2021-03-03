@@ -45,7 +45,7 @@ O projeto tem como finalidade **estabelecer uma conexão** entre **empresas e/ou
   - **[Celebrate][celebrate]**
   - **[Joi][joi]**
 
-  \* Veja o arquivo <kbd>[package.json](./sources/server/package.json)</kbd>
+  \* Veja o arquivo <kbd>[package.json](./server/package.json)</kbd>
 
 #### **Mobile** ([React Native][react_native] + [TypeScript][typescript])
 
@@ -59,7 +59,7 @@ O projeto tem como finalidade **estabelecer uma conexão** entre **empresas e/ou
   - **[Expo Location][expo_location]**
   - **[Expo Mail Composer][expo_mail_composer]**
 
-  \* Veja o arquivo <kbd>[package.json](./sources/mobile/package.json)</kbd>
+  \* Veja o arquivo <kbd>[package.json](./mobile/package.json)</kbd>
 
 #### **Utilitários**
 
@@ -122,7 +122,7 @@ $ cd ./sources/mobile
 $ npm install
 ```
 
-Veja os arquivos **`package.json`** do <kbd>[commitlint](./package.json)</kbd>, <kbd>[server](./sources/server/package.json)</kbd>, <kbd>[website](./sources/website/package.json)</kbd> e <kbd>[mobile](./sources/mobile/package.json)</kbd>.
+Veja os arquivos **`package.json`** do <kbd>[commitlint](./package.json)</kbd>, <kbd>[server](./server/package.json)</kbd>, <kbd>[website](./web/package.json)</kbd> e <kbd>[mobile](./mobile/package.json)</kbd>.
 
 ### Utilizando o Server
 
@@ -142,7 +142,7 @@ $ npm run knex:migrate
 $ npm run knex:seed
 ```
 
-> Veja a parte de **scripts {}** do arquivo <kbd>[package.json](./sources/server/package.json)</kbd> para saber quais scripts estão disponíveis.
+> Veja a parte de **scripts {}** do arquivo <kbd>[package.json](./server/package.json)</kbd> para saber quais scripts estão disponíveis.
 
 ### Utilizando o Website
 
