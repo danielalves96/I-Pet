@@ -108,15 +108,15 @@ $ yarn
 Exemplos:
 ```sh
 # Instalando as dependências do server:
-$ cd ./sources/server
+$ cd ./server
 $ npm install
 
 # Instalando as dependências do website:
-$ cd ./sources/website
+$ cd ./website
 $ npm install
 
 # Instalando as dependências do mobile:
-$ cd ./sources/mobile
+$ cd ./mobile
 $ npm install
 ```
 
@@ -129,7 +129,7 @@ Veja os arquivos **`package.json`** do <kbd>[server](./server/package.json)</kbd
 E PREECHA AS CREDENCIAIS CONFORME AS SUAS DE BANCO DE DADOS E AWS SERVER**
 
 # Abrindo o terminal no diretório do servidor:
-$ cd ./sources/server
+$ cd ./server
 
 # Executando a aplicação em modo de desenvolvimento:
 $ npm run dev
@@ -147,7 +147,7 @@ $ npm run seeds
 
 ```sh
 # Abrindo o terminal no diretório do website:
-$ cd ./sources/web
+$ cd ./web
 
 # Executando o website no modo de desenvolvimento:
 $ npm run start
@@ -161,7 +161,7 @@ Instale o aplicativo <kbd>[Expo](https://play.google.com/store/apps/details?id=h
 
 ```sh
 # Abrindo o terminal no diretório do mobile:
-$ cd ./sources/mobile
+$ cd ./mobile
 
 # Executando o mobile no modo de desenvolvimento:
 $ npm run start
