@@ -31,7 +31,7 @@ O projeto tem como finalidade **estabelecer uma conexão** entre **empresas e/ou
   - **[React Dropzone][react_dropzone]**
 
 
-  \* Veja o arquivo <kbd>[package.json](./sources/web/package.json)</kbd>
+  \* Veja o arquivo <kbd>[package.json](./web/package.json)</kbd>
 
 #### **Server** ([NodeJS][node] + [TypeScript][typescript])
 
