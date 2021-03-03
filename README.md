@@ -1,7 +1,7 @@
 # I-Pet
 
 <h3 align="center">
-:dog: I-PET é um projeto desenvolvido na semana utilizando as tecnologias TypeScript, Node, React e React Native.
+:dog: I-PET é um projeto desenvolvido utilizando as tecnologias TypeScript, Node, React e React Native.
 </h3>
 
 <div align="center">
