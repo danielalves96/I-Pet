@@ -221,8 +221,6 @@ $ expo install expo-font @expo-google-fonts/ubuntu @expo-google-fonts/roboto
 - [Knex][knex]
 - [Express](https://expressjs.com/pt-br/)
 - [Node](https://nodejs.org/en/)
-- [Celebrate](https://github.com/arb/celebrate)
-- [Joi](https://hapi.dev/module/joi/)
 
 ## **:page_with_curl: LICENÇA**
 
