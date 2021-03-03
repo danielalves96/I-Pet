@@ -1,7 +1,7 @@
 # I-Pet
 
 <h3 align="center">
-:dog: I-PET é um projeto desenvolvido na semana utilizando as tecnologias ***TypeScript, Node, React e React Native***.
+:dog: I-PET é um projeto desenvolvido na semana utilizando as tecnologias TypeScript, Node, React e React Native.
 </h3>
 
 <div align="center">
@@ -9,6 +9,7 @@
 ![BADGE_NODE_VERSION] ![BADGE_NPM_VERSION] ![BADGE_WEB_REACT] ![BADGE_MOBILE_REACT_NATIVE] ![BADGE_SERVER_NODEJS] 
 
 </div>
+<br/>
 
 ![Banner](https://github.com/danielalves96/Images/blob/master/Projetos/IPET/Group%2015.png?raw=true)
 
