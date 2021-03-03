@@ -11,7 +11,7 @@
 </div>
 <br/>
 
-![Banner](https://github.com/danielalves96/Images/blob/master/Projetos/IPET/Group%2015.png?raw=true)
+![Banner](https://github.com/danielalves96/Images/blob/master/Projetos/IPET/Novo%20Projeto.png?raw=true)
 
 
 ## **:rocket: OBJETIVO**
