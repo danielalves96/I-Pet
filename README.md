@@ -122,12 +122,13 @@ $ cd ./sources/mobile
 $ npm install
 ```
 
-Veja os arquivos **`package.json`** do <kbd>[commitlint](./package.json)</kbd>, <kbd>[server](./server/package.json)</kbd>, <kbd>[website](./web/package.json)</kbd> e <kbd>[mobile](./mobile/package.json)</kbd>.
+Veja os arquivos **`package.json`** do <kbd>[server](./server/package.json)</kbd>, <kbd>[website](./web/package.json)</kbd> e <kbd>[mobile](./mobile/package.json)</kbd>.
 
 ### Utilizando o Server
 
 ```sh
-**DUPLIQUE O ARQUIVO .env.example PARA UM ARQUIVO .env E PREECHA AS CREDENCIAIS CONFORME AS SUAS DE BANCO DE DADOS E AWS SERVER**
+**DUPLIQUE O ARQUIVO .env.example PARA UM ARQUIVO .env 
+E PREECHA AS CREDENCIAIS CONFORME AS SUAS DE BANCO DE DADOS E AWS SERVER**
 
 # Abrindo o terminal no diretório do servidor:
 $ cd ./sources/server
