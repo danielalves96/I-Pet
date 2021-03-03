@@ -42,8 +42,6 @@ O projeto tem como finalidade **estabelecer uma conexão** entre **empresas e/ou
   - **[ts-node][tsnode]**
   - **[dotENV][dotenv]**
   - **[Multer][multer]**
-  - **[Celebrate][celebrate]**
-  - **[Joi][joi]**
 
   \* Veja o arquivo <kbd>[package.json](./server/package.json)</kbd>
 
