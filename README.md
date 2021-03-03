@@ -137,10 +137,10 @@ $ cd ./sources/server
 $ npm run dev
 
 # Instanciando o banco de dados:
-$ npm run knex:migrate
+$ npm run migrations
 
 # Povoando o banco de dados (seeds):
-$ npm run knex:seed
+$ npm run seeds
 ```
 
 > Veja a parte de **scripts {}** do arquivo <kbd>[package.json](./server/package.json)</kbd> para saber quais scripts estão disponíveis.
