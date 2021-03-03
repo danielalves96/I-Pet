@@ -66,7 +66,7 @@ O projeto tem como finalidade **estabelecer uma conexão** entre **empresas e/ou
 - Protótipo: **[Figma](https://www.figma.com/)**
 - API: **[IBGE API][ibge_api]** &rarr; **<kbd>[API de UFs][ibge_api_ufs]</kbd>**, **<kbd>[API de Municípios][ibge_api_municipios]</kbd>** 
 - Maps: **[Leaflet][leaflet]**
-- Editor: **[Visual Studio Code][vscode]** &rarr; Extensions: **<kbd>[SQLite][vscode_sqlite_extension]</kbd>**
+- Editor: **[Visual Studio Code][vscode]**
 - Teste de API: **[Insomnia][insomnia]**
 - Ícones: **[Feather Icons][feather_icons]**, **[Font Awesome][font_awesome]**
 - Fontes: **[Ubuntu][font_ubuntu]**, **[Roboto][font_roboto]**
