@@ -1,6 +1,6 @@
 import knex from '../database/connection';
 import { Request, Response } from 'express';
-import hostUrl  from '../contants'
+import hashed from '../config/multer'
 
 class PointsController {
 
@@ -19,7 +19,7 @@ class PointsController {
         const serializedPoints = points.map(point =>{
             return {
                 ...point,
-                image_url: `${hostUrl}:5432/src/point_images/${point.image}`
+                image_url: `https://ipet-uploads.s3.us-east-2.amazonaws.com/${point.image}`
             }
         })
 
@@ -43,7 +43,7 @@ class PointsController {
 
         const serializedPoint = {
             ...point,
-            image_url: `${hostUrl}:5432/src/point_images/${point.image}`
+            image_url: `https://ipet-uploads.s3.us-east-2.amazonaws.com/${point.image}`
         
         };
 
@@ -51,6 +51,11 @@ class PointsController {
     };
 
     async create(request: Request, response: Response) {
+
+        const fileName = request.file.originalname;
+
+        const finalName = `${hashed.hashed}-${hashed.time}-${fileName}`
+
         try {
             const {
                 name,
@@ -72,7 +77,7 @@ class PointsController {
             const trx = await knex.transaction();
 
             const point = {
-                image: request.file.filename,
+                image: finalName,
                 name,
                 email,
                 whatsapp,

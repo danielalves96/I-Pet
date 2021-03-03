@@ -22,13 +22,13 @@
     ],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.danielluizalvesmadeireira.mobile"
+      "bundleIdentifier": "com.ipet.mobile"
     },
     "android": {
-      "package": "com.danielluizalvesmadeireira.mobile",
+      "package": "com.ipet.mobile",
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyCtNUTZcdVRtAV-5BuGFVr3-YQBjl0DWUg"
+          "apiKey": "YOUR_API_KEY"
         }
       }
     }

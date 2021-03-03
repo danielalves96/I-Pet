@@ -1,3 +1,6 @@
-const hostUrl = 'http://localhost';
+require("dotenv").config();
+
+
+const hostUrl = process.env.HOST_URL;
 
 export default hostUrl;

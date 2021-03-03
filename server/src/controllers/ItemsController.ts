@@ -10,7 +10,7 @@ class ItemsController {
             return {
                 id: item.id,
                 title: item.title,
-                image_url: `${hostUrl}:5432/items/${item.image}`
+                image_url: `${hostUrl}/items/${item.image}`
             }
         })
         response.json(serializedItems);

@@ -8,6 +8,7 @@ import MultiSelect from "react-multi-select-component";
 import { LeafletMouseEvent } from "leaflet";
 import { Translate } from '../../Internacionalization/PR_BR';
 import Dropzone from '../../components/Dropzone'
+import env from "react-dotenv";
 
 
 import api from '../../services/api'
@@ -30,8 +31,6 @@ const CreatePoint = () => {
   interface CityIBGEResponse {
     nome: string;
   }
-
-  const accessToken = 'ipet12345';
 
   const [items, setItems] = useState<Item[]>([]);
   const [ufs, setUfs] = useState<string[]>([]);
@@ -211,7 +210,7 @@ const CreatePoint = () => {
       return;
     }
 
-    if (password === accessToken) {
+    if (password === env.IPET_PASSWORD) {
       setInpudetPassword(true);
     } else {
       alert('A senha informada está incorreta ou não tem acesso ao cadastro de estabelecimentos I-PET.');
